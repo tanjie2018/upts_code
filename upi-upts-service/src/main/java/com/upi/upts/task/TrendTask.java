@@ -59,7 +59,10 @@ public class TrendTask implements ITask{
 				trend.setIsSellPoint(UiisConstant.NO);
 			}
 			if(UiisConstant.YES.equals(trend.getIsBuyPoint())) {
-				tradeServiceImpl.handle(candle);
+				tradeServiceImpl.openOrder(candle,level);
+			}
+			if(UiisConstant.YES.equals(trend.getIsSellPoint())) {
+				tradeServiceImpl.closeOrder(candle, level);
 			}
 			log.info(level+" level trend:"+trend);
 		}
