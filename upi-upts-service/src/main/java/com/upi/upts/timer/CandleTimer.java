@@ -12,13 +12,17 @@ import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import com.upi.upts.common.CommonVO;
 import com.upi.upts.common.UiisConstant;
 import com.upi.upts.model.Candle;
 import com.upi.upts.service.impl.CandleServiceImpl;
+import com.upi.upts.task.ITask;
+import com.upi.upts.task.TrendTask;
 import com.upi.upts.util.StringUtil;
+import com.upi.upts.util.ThreadUtil;
 
 /**
  * 行情信息入库
@@ -31,6 +35,8 @@ public class CandleTimer {
 
 	@Autowired
 	private CandleServiceImpl candleServiceImpl;
+	@Autowired
+	private ApplicationContext applicationContext;
 	
 	@PostConstruct
 	public void init() {
@@ -79,7 +85,14 @@ public class CandleTimer {
 	
 	
 	private void saveCandleRecord(String level) {
-		Candle candle = CommonVO.candleMap.get(level);
+		Candle candle;
+		try {
+			candle = CommonVO.candleMap.get(level).clone();
+			CommonVO.candleMap.get(level).setId("");
+		} catch (CloneNotSupportedException e) {
+			logger.error("对象克隆失败",e);
+			return;
+		}
 		if(StringUtil.isEmpty(candle.getId())) {
 			logger.info(level+"级别，首次空跑，跳过入库");
 			return;
@@ -93,7 +106,9 @@ public class CandleTimer {
 		}
 		candle.setRang(BigDecimal.valueOf((candle.getClose()-candle.getOpen())/candle.getOpen()*100).setScale(3, BigDecimal.ROUND_HALF_UP));
 		candle.setTime(StringUtil.getNowFormatDate(UiisConstant.UPI_TIME_FORMAT));
+		TrendTask task = applicationContext.getBean(TrendTask.class);
+		task.init(candle, level);
+		ThreadUtil.getThreadPoolExecutor().submit(task);
 		candleServiceImpl.insert(candle);
-		candle.setId("");
 	}
 }

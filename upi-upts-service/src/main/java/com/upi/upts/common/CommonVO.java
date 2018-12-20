@@ -29,5 +29,6 @@ public class CommonVO {
 		trendMap.put(UiisConstant.FOUR, new Trend());
 	}
 	
-	public static ConcurrentHashMap<String, Trade> tradeMap = new ConcurrentHashMap<String, Trade>();
+	public static ConcurrentHashMap<String, Trade> bTradeMap = new ConcurrentHashMap<String, Trade>();
+	public static ConcurrentHashMap<String, Trade> sTradeMap = new ConcurrentHashMap<String, Trade>();
 }

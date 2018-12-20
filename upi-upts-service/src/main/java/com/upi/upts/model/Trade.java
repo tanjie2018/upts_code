@@ -30,10 +30,12 @@ public class Trade implements Cloneable{
 	private Double high;
 	//期间最近价
 	private Double low;
-	//订单状态,0开仓，1平仓
+	//订单状态,0建，1平
 	private String flag;
 	//利润
 	private BigDecimal profit;
+	//幅度
+	private BigDecimal rang;
 	//买入总价
 	private Double bsum;
 	//品仓总价

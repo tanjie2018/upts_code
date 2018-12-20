@@ -29,6 +29,15 @@ public class LocalConfig {
 	@Value("${uselocaltime:true}")
 	private boolean uselocaltime;
 	
+	@Value("${poll.maxSize:200}")
+	private int maxPoolSize;
+	@Value("${poll.coreSize:30}")
+	private int corePoolSize;
+	@Value("${poll.aliveTime:600}")
+	private long keepAliveTime;
+	@Value("${poll.capacity:1000}")
+	private int capacity;
+	
 	@PostConstruct
 	private void init() {
 		localConfig = this;
@@ -56,5 +65,21 @@ public class LocalConfig {
 			return false;
 		}
 		return localConfig.uselocaltime;
+	}
+	
+	public int getMaxPoolSize() {
+		return maxPoolSize;
+	}
+
+	public int getCorePoolSize() {
+		return corePoolSize;
+	}
+
+	public long getKeepAliveTime() {
+		return keepAliveTime;
+	}
+
+	public int getCapacity() {
+		return capacity;
 	}
 }

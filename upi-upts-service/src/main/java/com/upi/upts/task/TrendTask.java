@@ -1,5 +1,6 @@
 package com.upi.upts.task;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -7,6 +8,7 @@ import com.upi.upts.common.CommonVO;
 import com.upi.upts.common.UiisConstant;
 import com.upi.upts.model.Candle;
 import com.upi.upts.model.Trend;
+import com.upi.upts.service.impl.TradeServiceImpl;
 import com.upi.upts.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +20,9 @@ public class TrendTask implements ITask{
 
 	private Candle candle;
 	private String level;
+	
+	@Autowired
+	private TradeServiceImpl tradeServiceImpl;
 	
 	@Override
 	public Object call() throws Exception {
@@ -41,7 +46,7 @@ public class TrendTask implements ITask{
 				}
 				trend.setIsWait(UiisConstant.YES);
 			}
-			if(UiisConstant.YES.equals(trend.getIsTurn())&&trend.getCurDirec().equals(trend.getPreDirec())) {
+			if(UiisConstant.YES.equals(trend.getIsTurn())&&trend.getCurDirec().equals(trend.getPreDirec())&&candle.getProp().equals(trend.getCurDirec())) {
 				trend.setIsBuyPoint(UiisConstant.YES);
 			}else {
 				trend.setIsBuyPoint(UiisConstant.NO);
@@ -53,7 +58,9 @@ public class TrendTask implements ITask{
 				trend.setIsTurn(UiisConstant.NO);
 				trend.setIsSellPoint(UiisConstant.NO);
 			}
-			
+			if(UiisConstant.YES.equals(trend.getIsBuyPoint())) {
+				tradeServiceImpl.handle(candle);
+			}
 			log.info(level+" level trend:"+trend);
 		}
 		return null;

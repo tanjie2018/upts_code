@@ -35,6 +35,8 @@ public class UiisConstant {
 	public static final String YES = "Y";
 	public static final String NO = "N";
 	
+	public static final String BUY = "buy";
+	public static final String SELL = "sell";
 	
 	
 	
