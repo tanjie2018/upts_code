@@ -75,19 +75,22 @@ public class TradeServiceImpl implements TradeService {
 	public void closeOrder(Candle candle,String level) {
 		Trade trade = null;
 		if(UiisConstant.UP.equals(candle.getProp())) {
-			try {
-				trade = CommonVO.sTradeMap.get(level).clone();
-				CommonVO.sTradeMap.remove(level);
-			} catch (CloneNotSupportedException e) {
-				log.error("克隆异常",e);
+			if(!StringUtil.isEmpty(CommonVO.sTradeMap.get(level))) {
+				try {
+					trade = CommonVO.sTradeMap.get(level).clone();
+					CommonVO.sTradeMap.remove(level);
+				} catch (CloneNotSupportedException e) {
+					log.error("克隆异常",e);
+				}
 			}
-			
 		}else {
-			try {
-				trade = CommonVO.bTradeMap.get(level).clone();
-				CommonVO.sTradeMap.remove(level);
-			} catch (CloneNotSupportedException e) {
-				log.error("克隆异常",e);
+			if(!StringUtil.isEmpty(CommonVO.bTradeMap.get(level))) {
+				try {
+					trade = CommonVO.bTradeMap.get(level).clone();
+					CommonVO.sTradeMap.remove(level);
+				} catch (CloneNotSupportedException e) {
+					log.error("克隆异常",e);
+				}
 			}
 		}
 		if(!StringUtil.isEmpty(trade)) {
@@ -95,7 +98,8 @@ public class TradeServiceImpl implements TradeService {
 			trade.setSsum(candle.getClose()*trade.getSize());
 			trade.setStime(StringUtil.getNowFormatDate(UiisConstant.UPI_TIME_FORMAT));
 			trade.setProfit(BigDecimal.valueOf(trade.getSsum()-trade.getBsum()).setScale(3, BigDecimal.ROUND_HALF_UP));
-			trade.setProfit(BigDecimal.valueOf((trade.getSprice()-trade.getBprice())/trade.getBprice()).setScale(3, BigDecimal.ROUND_HALF_UP));
+			trade.setRang(BigDecimal.valueOf((trade.getSprice()-trade.getBprice())/trade.getBprice()).setScale(3, BigDecimal.ROUND_HALF_UP));
+			trade.setFlag("1");
 			update(trade);
 		}
 	}
