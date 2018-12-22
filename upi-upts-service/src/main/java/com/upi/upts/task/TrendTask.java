@@ -64,7 +64,7 @@ public class TrendTask implements ITask{
 //			}else {
 //				trend.setIsBuyPoint(UiisConstant.NO);
 //			}
-			//趋势确认加K线确认
+			//趋势确认加K线确认，(是否需要加双向K线)
 			if(!trend.getIsOpenOrder()&&trend.getCurDirec().equals(trend.getPreDirec())&&candle.getProp().equals(trend.getCurDirec())) {
 				trend.setIsBuyPoint(true);
 			}else {

@@ -40,6 +40,8 @@ public class Trade implements Cloneable{
 	private Double bsum;
 	//品仓总价
 	private Double ssum;
+	//策略
+	private String strategy;
 	
 	@Override
 	public Trade clone() throws CloneNotSupportedException {

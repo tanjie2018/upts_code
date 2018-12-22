@@ -58,6 +58,7 @@ public class TradeServiceImpl implements TradeService {
 		trade.setBtime(StringUtil.getNowFormatDate(UiisConstant.UPI_TIME_FORMAT));
 		trade.setBprice(candle.getClose());
 		
+		trade.setStrategy(level);
 		trade.setSize((int) (10000/trade.getBprice()));
 		trade.setBsum(trade.getBprice()*trade.getSize());
 		trade.setFlag("0");

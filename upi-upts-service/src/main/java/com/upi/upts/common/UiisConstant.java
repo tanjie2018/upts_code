@@ -10,16 +10,16 @@ import java.util.HashMap;
 public class UiisConstant {
 
 	/*******************线程池参数***********************/
-//	public static final int FIVE_MINUTES = 300;
-//	public static final int THIRTY_MINUTES = 1800;
-//	public static final int ONE_HOUR = 3600;
-//	public static final int TWO_HOUR = 7200;
-//	public static final int DATE_TIME = 86400;
-	public static final int FIVE_MINUTES = 30;
-	public static final int THIRTY_MINUTES = 60;
-	public static final int ONE_HOUR = 120;
-	public static final int TWO_HOUR = 150;
-	public static final int DATE_TIME = 200;
+	public static final int FIVE_MINUTES = 300;
+	public static final int THIRTY_MINUTES = 1800;
+	public static final int ONE_HOUR = 3600;
+	public static final int TWO_HOUR = 7200;
+	public static final int DATE_TIME = 86400;
+//	public static final int FIVE_MINUTES = 30;
+//	public static final int THIRTY_MINUTES = 60;
+//	public static final int ONE_HOUR = 120;
+//	public static final int TWO_HOUR = 150;
+//	public static final int DATE_TIME = 200;
 	public static final int INT_MAX = 1999999999;
 	
 	public static final String FIVE = "FIVE";
