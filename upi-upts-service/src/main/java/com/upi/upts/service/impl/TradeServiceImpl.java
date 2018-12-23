@@ -2,6 +2,8 @@ package com.upi.upts.service.impl;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -64,33 +66,59 @@ public class TradeServiceImpl implements TradeService {
 		trade.setFlag("0");
 		if(UiisConstant.UP.equals(candle.getProp())) {
 			trade.setSider(UiisConstant.BUY);
-			CommonVO.bTradeMap.put(level, trade);
+			BlockingQueue<Trade> tQueue = CommonVO.bTradeMap.get(level);
+			if(StringUtil.isEmpty(tQueue)) {
+				tQueue = new LinkedBlockingQueue<>();
+			}
+			if(tQueue.size()!=0) {
+				log.error("队列中已存在订单");
+			}else {
+				try {
+					tQueue.put(trade);
+				} catch (InterruptedException e) {
+					log.error("订单生成失败",e);
+				}
+			}
+			CommonVO.bTradeMap.put(level, tQueue);
 		}else {
 			trade.setSider(UiisConstant.SELL);
-			CommonVO.sTradeMap.put(level, trade);
+			BlockingQueue<Trade> tQueue = CommonVO.sTradeMap.get(level);
+			if(StringUtil.isEmpty(tQueue)) {
+				tQueue = new LinkedBlockingQueue<>();
+			}
+			if(tQueue.size()!=0) {
+				log.error("队列中已存在订单");
+			}else {
+				try {
+					tQueue.put(trade);
+				} catch (InterruptedException e) {
+					log.error("订单生成失败",e);
+				}
+			}
+			CommonVO.sTradeMap.put(level, tQueue);
 		}
 		update(trade);
 		log.info("交易信息入库："+trade);
 	}
 	
-	public void closeOrder(Candle candle,String level) {
+	public void closeOrder(Candle candle,String level) throws CloneNotSupportedException {
 		Trade trade = null;
 		if(UiisConstant.UP.equals(candle.getProp())) {
-			if(!StringUtil.isEmpty(CommonVO.sTradeMap.get(level))) {
+			BlockingQueue<Trade> tQueue = CommonVO.sTradeMap.get(level);
+			if(!StringUtil.isEmpty(tQueue)&&tQueue.size()>0) {
 				try {
-					trade = CommonVO.sTradeMap.get(level).clone();
-					CommonVO.sTradeMap.remove(level);
-				} catch (CloneNotSupportedException e) {
-					log.error("克隆异常",e);
+					trade = tQueue.take();
+				} catch (InterruptedException e) {
+					log.error("订单获取失败",e);;
 				}
 			}
 		}else {
-			if(!StringUtil.isEmpty(CommonVO.bTradeMap.get(level))) {
+			BlockingQueue<Trade> tQueue = CommonVO.bTradeMap.get(level);
+			if(!StringUtil.isEmpty(tQueue)&&tQueue.size()>0) {
 				try {
-					trade = CommonVO.bTradeMap.get(level).clone();
-					CommonVO.sTradeMap.remove(level);
-				} catch (CloneNotSupportedException e) {
-					log.error("克隆异常",e);
+					trade = tQueue.take();
+				} catch (InterruptedException e) {
+					log.error("订单获取失败",e);
 				}
 			}
 		}

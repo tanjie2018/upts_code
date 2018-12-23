@@ -1,5 +1,6 @@
 package com.upi.upts.common;
 
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.stereotype.Component;
@@ -29,7 +30,11 @@ public class CommonVO {
 		trendMap.put(UiisConstant.FOUR, new Trend());
 	}
 	
+//	//考虑使用队列存储订单
+//	public static ConcurrentHashMap<String, Trade> bTradeMap = new ConcurrentHashMap<String, Trade>();
+//	public static ConcurrentHashMap<String, Trade> sTradeMap = new ConcurrentHashMap<String, Trade>();
 	//考虑使用队列存储订单
-	public static ConcurrentHashMap<String, Trade> bTradeMap = new ConcurrentHashMap<String, Trade>();
-	public static ConcurrentHashMap<String, Trade> sTradeMap = new ConcurrentHashMap<String, Trade>();
+	public static ConcurrentHashMap<String, BlockingQueue<Trade>> bTradeMap = new ConcurrentHashMap<String, BlockingQueue<Trade>>();
+	public static ConcurrentHashMap<String, BlockingQueue<Trade>> sTradeMap = new ConcurrentHashMap<String, BlockingQueue<Trade>>();
+	
 }

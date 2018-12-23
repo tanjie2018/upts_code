@@ -18,8 +18,9 @@ public class Trend implements Cloneable{
 	private Boolean isTurn = false;
 	private Boolean isBuyPoint= false;
 	private Boolean isSellPoint = false;
-//	private Boolean isWait = true;
+	private Boolean isDirecWait = true;//true为方向不确定，待下一K线判断
 	private Boolean isOpenOrder = false;
+	private Boolean isCloseOrder = false;
 	
 	@Override
 	public Trend clone() throws CloneNotSupportedException {
