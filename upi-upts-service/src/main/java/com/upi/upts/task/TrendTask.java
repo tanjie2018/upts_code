@@ -38,10 +38,8 @@ public class TrendTask implements ITask{
 			//判断当前趋势
 			if(candle.getHigh()>cur.getHigh()&&candle.getLow()>=cur.getLow()) {
 				trend.setCurDirec(UiisConstant.UP);
-//				trend.setIsWait(UiisConstant.NO);
 			}else if (candle.getHigh()<=cur.getHigh()&&candle.getLow()<cur.getLow()) {
 				trend.setCurDirec(UiisConstant.DOWN);
-//				trend.setIsWait(UiisConstant.NO);
 			}else {
 				if(candle.getHigh()>cur.getHigh()&&candle.getLow()<cur.getLow()) {
 					trend.setCurDirec(candle.getProp());
