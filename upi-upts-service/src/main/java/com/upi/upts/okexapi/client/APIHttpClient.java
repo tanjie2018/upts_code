@@ -82,7 +82,7 @@ public class APIHttpClient {
     		timestamp = timestamp.substring(0,14)+timestamp.substring(14).replaceFirst(regex, replacement);
     		/*************时间戳处理**************/
             
-            System.out.println("timestamp={" + timestamp + "}");
+//            System.out.println("timestamp={" + timestamp + "}");
             requestBuilder.headers(this.headers(chain.request(), timestamp));
             final Request request = requestBuilder.build();
             if (this.config.isPrint()) {

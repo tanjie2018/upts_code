@@ -35,24 +35,24 @@ public class UptsSpotTest {
 		Ticker instrumentTicker = apiServiceImpl.getInstrumentTicker("ETH-USD-181228");
 		//获取成交数据
 		List<Trades> instrumentTrades = apiServiceImpl.getInstrumentTrades("ETH-USD-181228", 1, 10, 220);
-		//获取K线数据
-		//[timestamp,open,high,low,close,volume,currency_volume]
-//		JSONArray instrumentCandles = apiServiceImpl.getInstrumentCandles("ETH-USD-181228", "2018-12-17T02:31:00Z", "2018-12-17T09:55:00Z", 3000);
-		JSONArray instrumentCandles = apiServiceImpl.getInstrumentCandles("ETH-USD-181228", "", "", 18000);
+		
 		//获取指数信息
 		Index instrumentIndex = apiServiceImpl.getInstrumentIndex("ETH-USD-181228");
 		//获取爆仓单
 		List<Liquidation> instrumentLiquidation = apiServiceImpl.getInstrumentLiquidation("ETH-USD-181228", 1, 1, 2, 200);
-		
+		//获取K线数据
+		//[timestamp,open,high,low,close,volume,currency_volume]
+//		JSONArray instrumentCandles = apiServiceImpl.getInstrumentCandles("ETH-USD-181228", "2018-12-17T02:31:00Z", "2018-12-17T09:55:00Z", 3000);
+		JSONArray instrumentCandles = apiServiceImpl.getInstrumentCandles("ETH-USD-181228", "", "", 300);
 		
  		System.out.println(JSON.toJSONString(instruments));
  		System.out.println(JSON.toJSONString(instrumentBook));
  		System.out.println(JSON.toJSONString(allInstrumentTicker));
  		System.out.println(JSON.toJSONString(instrumentTicker));
  		System.out.println(JSON.toJSONString(instrumentTrades));
- 		System.out.println(JSON.toJSONString(instrumentCandles));
  		System.out.println(JSON.toJSONString(instrumentIndex));
  		System.out.println(JSON.toJSONString(instrumentLiquidation));
+ 		System.out.println(JSON.toJSONString(instrumentCandles));
  		
 
 	}

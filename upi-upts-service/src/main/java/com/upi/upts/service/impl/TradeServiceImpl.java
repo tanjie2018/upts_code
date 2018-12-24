@@ -70,8 +70,10 @@ public class TradeServiceImpl implements TradeService {
 			if(StringUtil.isEmpty(tQueue)) {
 				tQueue = new LinkedBlockingQueue<>();
 			}
+			log.info("买多处理，队列值为："+tQueue.size()+",candle:"+candle);
 			if(tQueue.size()!=0) {
 				log.error("队列中已存在订单");
+				return;
 			}else {
 				try {
 					tQueue.put(trade);
@@ -86,8 +88,10 @@ public class TradeServiceImpl implements TradeService {
 			if(StringUtil.isEmpty(tQueue)) {
 				tQueue = new LinkedBlockingQueue<>();
 			}
+			log.info("买空处理，队列值为："+tQueue.size()+",candle:"+candle);
 			if(tQueue.size()!=0) {
 				log.error("队列中已存在订单");
+				return;
 			}else {
 				try {
 					tQueue.put(trade);
@@ -106,6 +110,7 @@ public class TradeServiceImpl implements TradeService {
 		if(UiisConstant.UP.equals(candle.getProp())) {
 			BlockingQueue<Trade> tQueue = CommonVO.sTradeMap.get(level);
 			if(!StringUtil.isEmpty(tQueue)&&tQueue.size()>0) {
+				log.info("卖空处理，队列值为："+tQueue.size());
 				try {
 					trade = tQueue.take();
 				} catch (InterruptedException e) {
@@ -115,6 +120,7 @@ public class TradeServiceImpl implements TradeService {
 		}else {
 			BlockingQueue<Trade> tQueue = CommonVO.bTradeMap.get(level);
 			if(!StringUtil.isEmpty(tQueue)&&tQueue.size()>0) {
+				log.info("卖多处理，队列值为："+tQueue.size());
 				try {
 					trade = tQueue.take();
 				} catch (InterruptedException e) {

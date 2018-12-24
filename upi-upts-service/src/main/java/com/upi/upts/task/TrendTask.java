@@ -92,6 +92,7 @@ public class TrendTask implements ITask{
 			
 			//判断卖点
 			if(!trend.getIsCloseOrder()&&UiisConstant.UP.equals(trend.getCurDirec())&&candle.getProp().equals(UiisConstant.UP)) {
+				log.info("卖空第一步成立："+candle);
 				//判断卖空
 				if (cur.getProp().equals(UiisConstant.DOWN)&&candle.getClose()>cur.getOpen()) {
 					trend.setIsSellPoint(true);
@@ -99,15 +100,18 @@ public class TrendTask implements ITask{
 					trend.setIsSellPoint(true);
 				}else {
 					trend.setIsSellPoint(false);
+					log.info("卖空第二步不成立："+trend);
 				}
 			}else if(!trend.getIsCloseOrder()&&UiisConstant.DOWN.equals(trend.getCurDirec())&&candle.getProp().equals(UiisConstant.DOWN)) {
+				log.info("卖多第一步成立："+candle);
 				//判断卖多
-				if(cur.getProp().equals(UiisConstant.DOWN)&&candle.getClose()>cur.getOpen()) {
+				if(cur.getProp().equals(UiisConstant.DOWN)&&candle.getClose()<cur.getClose()) {
 					trend.setIsSellPoint(true);
-				}else if(cur.getProp().equals(UiisConstant.UP)&&candle.getClose()>cur.getClose()) {
+				}else if(cur.getProp().equals(UiisConstant.UP)&&candle.getClose()<cur.getOpen()) {
 					trend.setIsSellPoint(true);
 				}else {
 					trend.setIsSellPoint(false);
+					log.info("卖多第二步不成立："+trend);
 				}
 			}else {
 				trend.setIsSellPoint(false);
@@ -117,11 +121,14 @@ public class TrendTask implements ITask{
 			if(trend.getIsBuyPoint()) {
 				tradeServiceImpl.openOrder(candle,level);
 				trend.setIsOpenOrder(true);
+				log.info("买点处理完毕："+candle);
 			}
 			//卖点处理
 			if(trend.getIsSellPoint()) {
+				
 				tradeServiceImpl.closeOrder(candle, level);
 				trend.setIsCloseOrder(true);
+				log.info("卖点处理完毕："+candle);
 			}
 			log.info(level+" level trend:"+trend);
 		}

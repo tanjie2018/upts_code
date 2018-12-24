@@ -56,7 +56,7 @@ public class TradeTimer {
 		        	deal(getFCandle(UiisConstant.ONE), trades, "O");
 		        	deal(getFCandle(UiisConstant.TWO), trades, "W");
 		        	deal(getFCandle(UiisConstant.FOUR), trades, "D");
-		        	logger.info("成交单号："+trades.getTrade_id()+",成交价格："+trades.getPrice()+",成交时间："+trades.getTimestamp()+",成交方向"+trades.getSide());
+//		        	logger.info("成交单号："+trades.getTrade_id()+",成交价格："+trades.getPrice()+",成交时间："+trades.getTimestamp()+",成交方向"+trades.getSide());
 		        }  
 		    };  
 		 ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();  
