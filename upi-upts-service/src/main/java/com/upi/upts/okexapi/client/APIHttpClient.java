@@ -74,13 +74,19 @@ public class APIHttpClient {
         clientBuilder.retryOnConnectionFailure(this.config.isRetryOnConnectionFailure());
         clientBuilder.addInterceptor((Interceptor.Chain chain) -> {
             final Request.Builder requestBuilder = chain.request().newBuilder();
+            String timestamp = "";
+            if(LocalConfig.getIsUseLocalTime()) {
+            	/*************时间戳处理**************/
+                timestamp = DateUtils.getUnixTime();
+                String regex = timestamp.substring(14, 16);
+        		String replacement = String.valueOf(Integer.parseInt(regex)+1);
+        		timestamp = timestamp.substring(0,14)+timestamp.substring(14).replaceFirst(regex, replacement);
+        		/*************时间戳处理**************/
+            }else {
+            	timestamp = DateUtils.getUnixTime();
+            }
 //            final String timestamp = DateUtils.getUnixTime();
-            /*************时间戳处理**************/
-            String timestamp = DateUtils.getUnixTime();
-            String regex = timestamp.substring(14, 16);
-    		String replacement = String.valueOf(Integer.parseInt(regex)+1);
-    		timestamp = timestamp.substring(0,14)+timestamp.substring(14).replaceFirst(regex, replacement);
-    		/*************时间戳处理**************/
+            
             
 //            System.out.println("timestamp={" + timestamp + "}");
             requestBuilder.headers(this.headers(chain.request(), timestamp));

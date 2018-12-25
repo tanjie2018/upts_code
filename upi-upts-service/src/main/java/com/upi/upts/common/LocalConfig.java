@@ -62,7 +62,7 @@ public class LocalConfig {
 	public static boolean getIsUseLocalTime() {
 //		log.info("localConfig.proxyPort:"+localConfig.proxyPort);
 		if(StringUtil.isEmpty(localConfig)) {
-			return false;
+			return true;
 		}
 		return localConfig.uselocaltime;
 	}
