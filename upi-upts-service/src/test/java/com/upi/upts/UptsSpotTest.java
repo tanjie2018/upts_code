@@ -1,5 +1,6 @@
 package com.upi.upts;
 
+import java.time.Instant;
 import java.util.List;
 
 import com.alibaba.fastjson.JSON;
@@ -18,6 +19,7 @@ import com.upi.upts.okexapi.service.account.impl.AccountAPIServiceImpl;
 import com.upi.upts.okexapi.service.futures.impl.FuturesMarketAPIServiceImpl;
 import com.upi.upts.okexapi.service.futures.impl.FuturesTradeAPIServiceImpl;
 import com.upi.upts.okexapi.service.spot.impl.SpotAccountAPIServiceImpl;
+import com.upi.upts.okexapi.utils.DateUtils;
 import com.upi.upts.util.BaseConfigration;
 
 public class UptsSpotTest {
@@ -44,6 +46,10 @@ public class UptsSpotTest {
 		//[timestamp,open,high,low,close,volume,currency_volume]
 //		JSONArray instrumentCandles = apiServiceImpl.getInstrumentCandles("ETH-USD-181228", "2018-12-17T02:31:00Z", "2018-12-17T09:55:00Z", 3000);
 		JSONArray instrumentCandles = apiServiceImpl.getInstrumentCandles("ETH-USD-181228", "", "", 300);
+		instrumentCandles = apiServiceImpl.getInstrumentCandles("ETH-USD-181228", "2018-12-26T06:31:00Z", "", 300);
+		String timestamp = DateUtils.getUnixTime();
+		
+		
 		
  		System.out.println(JSON.toJSONString(instruments));
  		System.out.println(JSON.toJSONString(instrumentBook));
@@ -53,8 +59,13 @@ public class UptsSpotTest {
  		System.out.println(JSON.toJSONString(instrumentIndex));
  		System.out.println(JSON.toJSONString(instrumentLiquidation));
  		System.out.println(JSON.toJSONString(instrumentCandles));
+ 		System.out.println(getUnixTime());
  		
 
 	}
+	
+	 public static String getUnixTime() {
+	        return Instant.now().toString();
+	    }
 
 }
