@@ -27,6 +27,10 @@ public class TrendTask implements ITask{
 	@Override
 	public Object call() throws Exception {
 		Trend trend = CommonVO.trendMap.get(level);
+		if(StringUtil.isEmpty(trend)) {
+			trend = new Trend();
+			CommonVO.trendMap.put(level, trend);
+		}
 		Candle cur = trend.getCur();
 		if(StringUtil.isEmpty(cur)) {
 			trend.setCur(candle);
