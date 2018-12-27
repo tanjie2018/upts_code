@@ -48,6 +48,7 @@ public class UiisConstant {
 	public static final String UPI_DATE_FORMAT = "yyyyMMdd";
 	public static final String UPI_TIME_FORMAT = "yyyyMMddHHmmss";
 	public static final String UPI_MILLISECOND_FORMAT = "yyyyMMddHHmmssSSS";
+	public static final String UPI_NORMAL_FORMAT = "yyyy-MM-dd HH:mm:ss";
 	
 	public static final BigDecimal ZERO = new BigDecimal(0);
 	

@@ -1,5 +1,6 @@
 package com.upi.upts.util;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -361,5 +362,29 @@ public class StringUtil {
 		return data3;  
 
 	}  
+	
+	/* 
+     * 将时间戳转换为时间
+     */
+    public static String stampToDate(String stamp,String format){
+        String res;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);//"yyyy-MM-dd HH:mm:ss"
+        long lt = new Long(stamp);
+        Date date = new Date(lt);
+        res = simpleDateFormat.format(date);
+        return res;
+    }
+   
+    /* 
+     * 将时间转换为时间戳
+     */    
+    public static String dateToStamp(String time,String format) throws ParseException{
+        String res;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);//"yyyy-MM-dd HH:mm:ss"
+        Date date = simpleDateFormat.parse(time);
+        long ts = date.getTime();
+        res = String.valueOf(ts);
+        return res;
+    }
 
 }
