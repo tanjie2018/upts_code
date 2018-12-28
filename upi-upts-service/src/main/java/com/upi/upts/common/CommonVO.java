@@ -1,5 +1,6 @@
 package com.upi.upts.common;
 
+import java.util.LinkedList;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -36,5 +37,9 @@ public class CommonVO {
 	//考虑使用队列存储订单
 	public static ConcurrentHashMap<String, BlockingQueue<Trade>> bTradeMap = new ConcurrentHashMap<String, BlockingQueue<Trade>>();
 	public static ConcurrentHashMap<String, BlockingQueue<Trade>> sTradeMap = new ConcurrentHashMap<String, BlockingQueue<Trade>>();
+	
+	//Key值为策略值
+	public static ConcurrentHashMap<String, LinkedList<Trade>> nbTradeMap = new ConcurrentHashMap<String, LinkedList<Trade>>();
+	public static ConcurrentHashMap<String, LinkedList<Trade>> nsTradeMap = new ConcurrentHashMap<String, LinkedList<Trade>>();
 	
 }

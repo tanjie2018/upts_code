@@ -35,6 +35,7 @@ public class TrendTask implements ITask{
 		if(StringUtil.isEmpty(cur)) {
 			trend.setCur(candle);
 		}else {
+			
 			trend.setPre(cur);
 			trend.setCur(candle);
 			if(candle.getHigh()<=cur.getHigh()&&candle.getLow()>=cur.getLow()) {
@@ -123,16 +124,27 @@ public class TrendTask implements ITask{
 			
 			//卖点处理
 			if(trend.getIsBuyPoint()) {
-				tradeServiceImpl.openOrder(candle,level);
+				//正常
+//				tradeServiceImpl.openOrder(candle,level);
+				//不止损
+				tradeServiceImpl.openNlOrder(candle, "D");
 				trend.setIsOpenOrder(true);
 				log.info("买点处理完毕："+candle);
 			}
 			//卖点处理
 			if(trend.getIsSellPoint()) {
-				
-				tradeServiceImpl.closeOrder(candle, level);
+				//在正常
+//				tradeServiceImpl.closeOrder(candle, level);
+				//不止损
+				tradeServiceImpl.closeNlOrder(candle, "D");
 				trend.setIsCloseOrder(true);
 				log.info("卖点处理完毕："+candle);
+			}
+			
+			//判断是否主动平仓
+			if(!candle.getProp().equals(UiisConstant.CENTRE)) {
+				//不止损
+				tradeServiceImpl.closeProfitOrder(candle, "D");
 			}
 			log.info(level+" level trend:"+trend);
 		}

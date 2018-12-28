@@ -38,7 +38,7 @@ public class UiisConstant {
 	public static final String BUY = "buy";
 	public static final String SELL = "sell";
 	
-	
+	public static final Double DEEP = 0.006;
 	
 	public static final int MAXINUM_POOL_SIZE = 2000;	
 	public static final int CORE_POOL_SIZE = 1000;
