@@ -13,6 +13,9 @@ import java.util.Random;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.upi.upts.common.UiisConstant;
+import com.upi.upts.okexapi.utils.DateUtils;
+
 @SuppressWarnings({"unchecked","rawtypes"})
 public class StringUtil {
 
@@ -363,7 +366,7 @@ public class StringUtil {
 
 	}  
 	
-	/* 
+	/** 
      * 将时间戳转换为时间
      */
     public static String stampToDate(String stamp,String format){
@@ -375,7 +378,7 @@ public class StringUtil {
         return res;
     }
    
-    /* 
+    /** 
      * 将时间转换为时间戳
      */    
     public static String dateToStamp(String time,String format) throws ParseException{
@@ -384,6 +387,24 @@ public class StringUtil {
         Date date = simpleDateFormat.parse(time);
         long ts = date.getTime();
         res = String.valueOf(ts);
+        return res;
+    }
+    
+    /**
+     * 获取某一偏移的UTC时间
+     */    
+    public static String getUTCTimeOffset(long offset) {
+        String res;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(UiisConstant.UPI_UTC_FORMAT);
+        Date date = null;
+		try {
+			date = simpleDateFormat.parse(DateUtils.getUnixTime());
+		} catch (ParseException e) {
+			logger.error("时间转换异常",e);
+		}
+        long ts = date.getTime()-offset;
+        date = new Date(ts);
+        res = simpleDateFormat.format(date);
         return res;
     }
 

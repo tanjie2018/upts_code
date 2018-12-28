@@ -56,8 +56,9 @@ public class TradeServiceImpl implements TradeService {
 	
 	public void openOrder(Candle candle,String level) {
 		Trade trade = new Trade();
-		trade.setOrderId(StringUtil.getNowFormatDate(UiisConstant.UPI_MILLISECOND_FORMAT));
-		trade.setBtime(StringUtil.getNowFormatDate(UiisConstant.UPI_TIME_FORMAT));
+		trade.setOrderId(level+StringUtil.getNowFormatDate(UiisConstant.UPI_MILLISECOND_FORMAT));
+//		trade.setBtime(StringUtil.getNowFormatDate(UiisConstant.UPI_TIME_FORMAT));
+		trade.setBtime(candle.getTime());
 		trade.setBprice(candle.getClose());
 		
 		trade.setStrategy(level);
@@ -131,9 +132,14 @@ public class TradeServiceImpl implements TradeService {
 		if(!StringUtil.isEmpty(trade)) {
 			trade.setSprice(candle.getClose());
 			trade.setSsum(candle.getClose()*trade.getSize());
-			trade.setStime(StringUtil.getNowFormatDate(UiisConstant.UPI_TIME_FORMAT));
-			trade.setProfit(BigDecimal.valueOf(trade.getSsum()-trade.getBsum()).setScale(3, BigDecimal.ROUND_HALF_UP));
-			trade.setRang(BigDecimal.valueOf((trade.getSprice()-trade.getBprice())/trade.getBprice()).setScale(3, BigDecimal.ROUND_HALF_UP));
+			trade.setStime(candle.getTime());
+			if(candle.getProp().equals(UiisConstant.UP)) {
+				trade.setProfit(BigDecimal.valueOf(trade.getBsum()-trade.getSsum()).setScale(3, BigDecimal.ROUND_HALF_UP));
+				trade.setRang(BigDecimal.valueOf((trade.getBprice()-trade.getSprice())/trade.getBprice()).setScale(3, BigDecimal.ROUND_HALF_UP));
+			}else {
+				trade.setProfit(BigDecimal.valueOf(trade.getSsum()-trade.getBsum()).setScale(3, BigDecimal.ROUND_HALF_UP));
+				trade.setRang(BigDecimal.valueOf((trade.getSprice()-trade.getBprice())/trade.getBprice()).setScale(3, BigDecimal.ROUND_HALF_UP));
+			}
 			trade.setFlag("1");
 			update(trade);
 		}

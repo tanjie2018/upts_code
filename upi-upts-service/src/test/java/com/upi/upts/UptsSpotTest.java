@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.upi.upts.common.UiisConstant;
+import com.upi.upts.model.Candle;
 import com.upi.upts.okexapi.bean.account.result.Currency;
 import com.upi.upts.okexapi.bean.account.result.Wallet;
 import com.upi.upts.okexapi.bean.account.result.WithdrawFee;
@@ -21,6 +23,8 @@ import com.upi.upts.okexapi.service.futures.impl.FuturesTradeAPIServiceImpl;
 import com.upi.upts.okexapi.service.spot.impl.SpotAccountAPIServiceImpl;
 import com.upi.upts.okexapi.utils.DateUtils;
 import com.upi.upts.util.BaseConfigration;
+import com.upi.upts.util.StringUtil;
+import com.upi.upts.util.UptsUtil;
 
 public class UptsSpotTest {
 
@@ -45,22 +49,32 @@ public class UptsSpotTest {
 		//获取K线数据
 		//[timestamp,open,high,low,close,volume,currency_volume]
 //		JSONArray instrumentCandles = apiServiceImpl.getInstrumentCandles("ETH-USD-181228", "2018-12-17T02:31:00Z", "2018-12-17T09:55:00Z", 3000);
-		JSONArray instrumentCandles = apiServiceImpl.getInstrumentCandles("ETH-USD-181228", "", "", 300);
-		instrumentCandles = apiServiceImpl.getInstrumentCandles("ETH-USD-181228", "2018-12-26T06:31:00Z", "", 300);
-		String timestamp = DateUtils.getUnixTime();
+//		JSONArray instrumentCandles = apiServiceImpl.getInstrumentCandles("ETH-USD-181228", "", "", 300);
+		JSONArray instrumentCandles = apiServiceImpl.getInstrumentCandles("ETH-USD-181228", StringUtil.getUTCTimeOffset(600000L), "", 300);
+		String replace = instrumentCandles.getString(1).replace("[", "").replace("]", "");
+		System.out.println(replace);
+		String[] split = replace.split(",");
+		Candle candle = UptsUtil.strToCandle(split);
+		System.out.println(candle);
+		String longValue = String.valueOf(Double.valueOf(split[0]).longValue());
+		System.out.println(longValue);
+		String stampToDate = StringUtil.stampToDate(longValue, UiisConstant.UPI_NORMAL_FORMAT);
+		System.out.println(stampToDate);
 		
 		
 		
- 		System.out.println(JSON.toJSONString(instruments));
- 		System.out.println(JSON.toJSONString(instrumentBook));
- 		System.out.println(JSON.toJSONString(allInstrumentTicker));
- 		System.out.println(JSON.toJSONString(instrumentTicker));
- 		System.out.println(JSON.toJSONString(instrumentTrades));
- 		System.out.println(JSON.toJSONString(instrumentIndex));
- 		System.out.println(JSON.toJSONString(instrumentLiquidation));
+		
+// 		System.out.println(JSON.toJSONString(instruments));
+// 		System.out.println(JSON.toJSONString(instrumentBook));
+// 		System.out.println(JSON.toJSONString(allInstrumentTicker));
+// 		System.out.println(JSON.toJSONString(instrumentTicker));
+// 		System.out.println(JSON.toJSONString(instrumentTrades));
+// 		System.out.println(JSON.toJSONString(instrumentIndex));
+// 		System.out.println(JSON.toJSONString(instrumentLiquidation));
  		System.out.println(JSON.toJSONString(instrumentCandles));
- 		System.out.println(getUnixTime());
- 		
+ 		int size = instrumentCandles.size();
+ 		System.out.println(size);
+		
 
 	}
 	

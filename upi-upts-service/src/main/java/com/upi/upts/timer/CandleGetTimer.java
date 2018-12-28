@@ -32,9 +32,9 @@ import com.upi.upts.util.UptsUtil;
  * @author tanjie
  */
 @Component
-public class CandlesGetTimer {
+public class CandleGetTimer {
 
-	private static Logger logger = LoggerFactory.getLogger(CandlesGetTimer.class);
+	private static Logger logger = LoggerFactory.getLogger(CandleGetTimer.class);
 	private static FuturesMarketAPIServiceImpl apiServiceImpl;
 	@Autowired
 	private ApplicationContext applicationContext;
@@ -51,38 +51,28 @@ public class CandlesGetTimer {
 		        public void run() {  
 		        	JSONArray candles = null;
 					try {
-						candles = getApiServiceImpl().getInstrumentCandles("ETH-USD-181228", StringUtil.getUTCTimeOffset(UiisConstant.DATE_TIME*1000L), "", 300);
+						candles = getApiServiceImpl().getInstrumentCandles("ETH-USD-181228", StringUtil.getUTCTimeOffset(600000L), "", 300);
 					} catch (Exception e) {
 						logger.error("API调用异常",e);
 						return;
 					}
-					logger.info("candles:"+candles);
-					for(int i=candles.size()-1;i>0;i--) {
-						try {
-							Thread.sleep(1000);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						String[] strs = candles.getString(i).replace("[", "").replace("]", "").split(",");
-			        	String candleId = String.valueOf(Double.valueOf(strs[0]).longValue());
-			        	if(!candleId.equals(id)) {
-			        		id = candleId;
-			        		Candle candle = UptsUtil.strToCandle(strs);
-			        		logger.info("获取candle为："+candle);
-			        		TrendTask task = applicationContext.getBean(TrendTask.class);
-			        		task.init(candle, "DC");
-			        		ThreadUtil.getThreadPoolExecutor().submit(task);
-			        		candleServiceImpl.insert(candle);
-			        	}
-					}
-		        	
+		        	String[] strs = candles.getString(1).replace("[", "").replace("]", "").split(",");
+		        	String candleId = String.valueOf(Double.valueOf(strs[0]).longValue());
+		        	if(!candleId.equals(id)) {
+		        		id = candleId;
+		        		Candle candle = UptsUtil.strToCandle(strs);
+		        		logger.info("获取candle为："+candle);
+		        		TrendTask task = applicationContext.getBean(TrendTask.class);
+		        		task.init(candle, "SC");
+		        		ThreadUtil.getThreadPoolExecutor().submit(task);
+		        		candleServiceImpl.insert(candle);
+		        	}
 //		        	logger.info("成交单号："+trades.getTrade_id()+",成交价格："+trades.getPrice()+",成交时间："+trades.getTimestamp()+",成交方向"+trades.getSide());
 		        }  
 		    };  
 		 ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();  
 		 // 第二个参数为首次执行的延时时间，第三个参数为定时执行的间隔时间  
-		 service.scheduleAtFixedRate(runnable, 5, UiisConstant.DATE_TIME, TimeUnit.SECONDS); 
+		 service.scheduleAtFixedRate(runnable, 5, 1, TimeUnit.SECONDS); 
 	}
 	
 	private static FuturesMarketAPIServiceImpl getApiServiceImpl() {
