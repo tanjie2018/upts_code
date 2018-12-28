@@ -51,7 +51,7 @@ public class CandlesGetTimer {
 		        public void run() {  
 		        	JSONArray candles = null;
 					try {
-						candles = getApiServiceImpl().getInstrumentCandles("ETH-USD-181228", StringUtil.getUTCTimeOffset(UiisConstant.DATE_TIME*1000L), "", 300);
+						candles = getApiServiceImpl().getInstrumentCandles("ETH-USD-190329", StringUtil.getUTCTimeOffset(UiisConstant.DATE_TIME*1000L), "", 300);
 					} catch (Exception e) {
 						logger.error("API调用异常",e);
 						return;

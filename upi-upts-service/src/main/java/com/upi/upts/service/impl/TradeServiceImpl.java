@@ -154,7 +154,7 @@ public class TradeServiceImpl implements TradeService {
 	 */
 	public void openNlOrder(Candle candle,String level) {
 		Trade trade = new Trade();
-		trade.setOrderId("N"+level+StringUtil.getNowFormatDate(UiisConstant.UPI_MILLISECOND_FORMAT));
+		trade.setOrderId(level+StringUtil.getNowFormatDate(UiisConstant.UPI_MILLISECOND_FORMAT));
 		trade.setBtime(candle.getTime());
 		trade.setBprice(candle.getClose());
 		

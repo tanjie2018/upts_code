@@ -30,50 +30,39 @@ public class UptsSpotTest {
 
 	public static void main(String[] args) {
 		APIConfiguration config = BaseConfigration.config();
+		String instrument = "ETH-USD-190329";
 		FuturesMarketAPIServiceImpl apiServiceImpl = new FuturesMarketAPIServiceImpl(config);
 		//合约信息
 		List<Instruments> instruments = apiServiceImpl.getInstruments();
+		System.out.println(JSON.toJSONString(instruments));
 		//获取深度列表
-		Book instrumentBook = apiServiceImpl.getInstrumentBook("ETH-USD-181228", 50);
+		Book instrumentBook = apiServiceImpl.getInstrumentBook(instrument, 50);
 		//获取全部ticker信息
 		List<Ticker> allInstrumentTicker = apiServiceImpl.getAllInstrumentTicker();
 		//获取某个ticker信息
-		Ticker instrumentTicker = apiServiceImpl.getInstrumentTicker("ETH-USD-181228");
+		Ticker instrumentTicker = apiServiceImpl.getInstrumentTicker(instrument);
 		//获取成交数据
-		List<Trades> instrumentTrades = apiServiceImpl.getInstrumentTrades("ETH-USD-181228", 1, 10, 220);
+		List<Trades> instrumentTrades = apiServiceImpl.getInstrumentTrades(instrument, 1, 10, 220);
 		
 		//获取指数信息
-		Index instrumentIndex = apiServiceImpl.getInstrumentIndex("ETH-USD-181228");
+		Index instrumentIndex = apiServiceImpl.getInstrumentIndex(instrument);
 		//获取爆仓单
-		List<Liquidation> instrumentLiquidation = apiServiceImpl.getInstrumentLiquidation("ETH-USD-181228", 1, 1, 2, 200);
+		List<Liquidation> instrumentLiquidation = apiServiceImpl.getInstrumentLiquidation(instrument, 1, 1, 2, 200);
 		//获取K线数据
 		//[timestamp,open,high,low,close,volume,currency_volume]
 //		JSONArray instrumentCandles = apiServiceImpl.getInstrumentCandles("ETH-USD-181228", "2018-12-17T02:31:00Z", "2018-12-17T09:55:00Z", 3000);
 //		JSONArray instrumentCandles = apiServiceImpl.getInstrumentCandles("ETH-USD-181228", "", "", 300);
-		JSONArray instrumentCandles = apiServiceImpl.getInstrumentCandles("ETH-USD-181228", StringUtil.getUTCTimeOffset(600000L), "", 300);
-		String replace = instrumentCandles.getString(1).replace("[", "").replace("]", "");
-		System.out.println(replace);
-		String[] split = replace.split(",");
-		Candle candle = UptsUtil.strToCandle(split);
-		System.out.println(candle);
-		String longValue = String.valueOf(Double.valueOf(split[0]).longValue());
-		System.out.println(longValue);
-		String stampToDate = StringUtil.stampToDate(longValue, UiisConstant.UPI_NORMAL_FORMAT);
-		System.out.println(stampToDate);
+		JSONArray instrumentCandles = apiServiceImpl.getInstrumentCandles(instrument, StringUtil.getUTCTimeOffset(600000L), "", 300);
 		
 		
-		
-		
-// 		System.out.println(JSON.toJSONString(instruments));
-// 		System.out.println(JSON.toJSONString(instrumentBook));
-// 		System.out.println(JSON.toJSONString(allInstrumentTicker));
-// 		System.out.println(JSON.toJSONString(instrumentTicker));
-// 		System.out.println(JSON.toJSONString(instrumentTrades));
-// 		System.out.println(JSON.toJSONString(instrumentIndex));
-// 		System.out.println(JSON.toJSONString(instrumentLiquidation));
+ 		System.out.println(JSON.toJSONString(instruments));
+ 		System.out.println(JSON.toJSONString(instrumentBook));
+ 		System.out.println(JSON.toJSONString(allInstrumentTicker));
+ 		System.out.println(JSON.toJSONString(instrumentTicker));
+ 		System.out.println(JSON.toJSONString(instrumentTrades));
+ 		System.out.println(JSON.toJSONString(instrumentIndex));
+ 		System.out.println(JSON.toJSONString(instrumentLiquidation));
  		System.out.println(JSON.toJSONString(instrumentCandles));
- 		int size = instrumentCandles.size();
- 		System.out.println(size);
 		
 
 	}
