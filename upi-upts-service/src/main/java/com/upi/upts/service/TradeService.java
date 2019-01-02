@@ -7,5 +7,5 @@ import com.upi.upts.model.Trade;
 public interface TradeService {
 	public void insert(Trade trade);
 	public void update(Trade trade);
-	public List<Trade> getUndoTrades();
+	public List<Trade> getUndoTrades(String flag);
 }

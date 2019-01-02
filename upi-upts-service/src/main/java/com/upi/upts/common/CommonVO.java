@@ -1,17 +1,45 @@
 package com.upi.upts.common;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.upi.upts.model.Candle;
+import com.upi.upts.model.Param;
 import com.upi.upts.model.Trade;
 import com.upi.upts.model.Trend;
+import com.upi.upts.service.impl.ParamServiceImpl;
+import com.upi.upts.util.StringUtil;
 
 @Component
 public class CommonVO {
+	
+	@Autowired
+	private ParamServiceImpl paramSer;
+	
+	private static CommonVO commonVo;
+	
+	@PostConstruct
+	void init() {
+		commonVo = this;
+	}
+	
+	//参数值
+	public static ConcurrentHashMap<String, Param> paramMap = new ConcurrentHashMap<String, Param>();
+	static {
+		List<Param> allParam = commonVo.paramSer.getAllParam();
+		if(!StringUtil.isEmpty(allParam)) {
+			for(Param param: allParam) {
+				paramMap.put(param.getParamKey(), param);
+			}
+		}
+	}
 	
 	public static ConcurrentHashMap<String, Candle> candleMap = new ConcurrentHashMap<String, Candle>();
 	static {
