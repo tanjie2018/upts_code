@@ -400,6 +400,7 @@ public class TradeServiceImpl implements TradeService {
 		trade.setFlag("4");
 		try {
 			update(trade.clone());
+			addForceNum();
 		} catch (CloneNotSupportedException e) {
 			log.error("对象克隆失败",e);
 		}
@@ -415,7 +416,7 @@ public class TradeServiceImpl implements TradeService {
 		LinkedList<Trade> btList = CommonVO.nbTradeMap.get(level);
 		LinkedList<Trade> stList = CommonVO.nsTradeMap.get(level);
 		Param bq = CommonVO.paramMap.get(UiisConstant.BUY_QUEURE_SIZE);
-		Param sq = CommonVO.paramMap.get(UiisConstant.BUY_QUEURE_SIZE);
+		Param sq = CommonVO.paramMap.get(UiisConstant.SELL_QUEURE_SIZE);
 		Param bsq = CommonVO.paramMap.get(UiisConstant.QUEURE_SIZE_MAX);
 		if(StringUtil.isEmpty(btList,stList,bq,sq,bsq)) {
 			log.info("存在空对象，暂时无法记录队列深度");
@@ -429,9 +430,21 @@ public class TradeServiceImpl implements TradeService {
 			sq.setParamValue(String.valueOf(stList.size()));
 			paramServiceImpl.update(sq);
 		}
-		if(Integer.valueOf(bsq.getParamValue())<btList.size()+stList.size()) {
+		if(Integer.valueOf(bsq.getParamValue())<(btList.size()+stList.size())) {
 			bsq.setParamValue(String.valueOf(btList.size()+stList.size()));
 			paramServiceImpl.update(bsq);
+		}
+	}
+	
+	/**
+	 * 新增爆仓单数量
+	 */
+	private void addForceNum() {
+		Param param = CommonVO.paramMap.get(UiisConstant.FORCE_ORDER_NO);
+		if(!StringUtil.isEmpty(param)) {
+			param.setParamValue(String.valueOf(Integer.valueOf(param.getParamValue())+1));
+			paramServiceImpl.update(param);
+			log.info("强制平仓单更新完毕");
 		}
 	}
 }

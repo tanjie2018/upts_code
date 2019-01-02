@@ -124,8 +124,10 @@ public class TrendTask implements ITask{
 			
 			//卖点处理
 			if(trend.getIsBuyPoint()) {
-				//正常
-				tradeServiceImpl.openOrder(candle,"NM");
+				if(!"DC".equals(level)) {
+					//正常
+					tradeServiceImpl.openOrder(candle,"NM");
+				}
 				//不止损
 				tradeServiceImpl.openNlOrder(candle, level);
 				trend.setIsOpenOrder(true);
@@ -133,8 +135,10 @@ public class TrendTask implements ITask{
 			}
 			//卖点处理
 			if(trend.getIsSellPoint()) {
-				//正常
-				tradeServiceImpl.closeOrder(candle, "NM");
+				if(!"DC".equals(level)) {
+					//正常
+					tradeServiceImpl.closeOrder(candle, "NM");
+				}
 				//不止损
 				tradeServiceImpl.closeNlOrder(candle, level);
 				trend.setIsCloseOrder(true);

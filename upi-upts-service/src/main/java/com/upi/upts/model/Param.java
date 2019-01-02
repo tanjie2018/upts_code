@@ -20,11 +20,16 @@ public class Param implements Cloneable{
 	//参数值
 	private String paramValue;
 	//参数描述
-	private String desc;
+	private String paramDesc;
 	
 	@Override
 	public Param clone() throws CloneNotSupportedException {
 		// TODO Auto-generated method stub
 		return (Param) super.clone();
+	}
+
+	@Override
+	public String toString() {
+		return "Param [paramKey=" + paramKey + ", paramValue=" + paramValue + ", paramDesc=" + paramDesc + "]";
 	}
 }

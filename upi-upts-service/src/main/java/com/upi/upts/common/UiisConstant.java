@@ -51,7 +51,7 @@ public class UiisConstant {
 	public static final String UPI_NORMAL_FORMAT = "yyyy-MM-dd HH:mm:ss";
 	public static final String UPI_UTC_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.S'Z'";
 	
-	public static final String BUY_QUEURE_SIZE = "byeQueueSize";//历史买队列深度--不支持分布式
+	public static final String BUY_QUEURE_SIZE = "buyQueueSize";//历史买队列深度--不支持分布式
 	public static final String SELL_QUEURE_SIZE = "sellQueueSize";//历史卖队列深度--不支持分布式
 	public static final String QUEURE_SIZE_MAX = "queueSizeMax";//历史卖队列深度--不支持分布式
 	public static final String FORCE_ORDER_NO = "forceOrderNum";//历史爆仓单数--不支持分布式

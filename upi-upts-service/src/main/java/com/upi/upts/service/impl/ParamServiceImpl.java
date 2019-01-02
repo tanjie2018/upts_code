@@ -1,11 +1,6 @@
 package com.upi.upts.service.impl;
 
-import java.math.BigDecimal;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,16 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import com.upi.upts.common.CommonVO;
-import com.upi.upts.common.UiisConstant;
-import com.upi.upts.model.Candle;
 import com.upi.upts.model.Param;
-import com.upi.upts.model.Trade;
 import com.upi.upts.repository.ParamRepository;
-import com.upi.upts.repository.TradeRepository;
 import com.upi.upts.service.ParamService;
-import com.upi.upts.service.TradeService;
-import com.upi.upts.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
