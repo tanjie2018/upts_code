@@ -10,6 +10,8 @@ import java.util.HashMap;
 public class UiisConstant {
 
 	/*******************线程池参数***********************/
+	public static final String instrumentId = "ETH-USD-190329";
+	
 	public static final int FIVE_MINUTES = 300;
 	public static final int THIRTY_MINUTES = 1800;
 	public static final int ONE_HOUR = 3600;
@@ -38,7 +40,7 @@ public class UiisConstant {
 	public static final String BUY = "buy";
 	public static final String SELL = "sell";
 	
-	public static final Double DEEP = 0.006;
+	public static final Double DEEP = 0.008;
 	
 	public static final int MAXINUM_POOL_SIZE = 2000;	
 	public static final int CORE_POOL_SIZE = 1000;

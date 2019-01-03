@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -407,5 +408,28 @@ public class StringUtil {
         res = simpleDateFormat.format(date);
         return res;
     }
+    
+    /**
+     * 传入日期减去一天，日期格式"yyyy-MM-dd"
+     * @param date
+     * @return
+     * @throws ParseException
+     */
+    public static String subDay(String date) { 
+    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); 
+		Date dt = null;
+		try {
+			dt = sdf.parse(date);
+		} catch (ParseException e) {
+			logger.info("日期转换异常",e);
+			return null;
+		}
+		Calendar rightNow = Calendar.getInstance(); 
+		rightNow.setTime(dt);
+		rightNow.add(Calendar.DAY_OF_MONTH, -1);
+		Date dt1 = rightNow.getTime();
+		String reStr = sdf.format(dt1);
+		return reStr;
+	}
 
 }

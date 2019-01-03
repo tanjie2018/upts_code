@@ -8,4 +8,5 @@ public interface TradeService {
 	public void insert(Trade trade);
 	public void update(Trade trade);
 	public List<Trade> getUndoTrades(String flag);
+	public List<Trade> getDateData(String date,String flag);
 }

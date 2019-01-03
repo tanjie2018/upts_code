@@ -45,7 +45,7 @@
 //		        public void run() {  
 //		        	List<Trades> instrumentTrades = null;
 //					try {
-//						instrumentTrades = getApiServiceImpl().getInstrumentTrades("ETH-USD-181228", 1, 1, 1);
+//						instrumentTrades = getApiServiceImpl().getInstrumentTrades(UiisConstant.instrumentId, 1, 1, 1);
 //					} catch (Exception e) {
 //						logger.error("API调用异常",e);
 //						return;

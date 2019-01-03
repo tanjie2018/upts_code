@@ -2,6 +2,8 @@ package com.upi.upts;
 
 import java.text.ParseException;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.upi.upts.common.CommonVO;
@@ -45,8 +47,11 @@ public class UptsTest {
 //		String stampToDate = StringUtil.stampToDate(String.valueOf(System.currentTimeMillis()-600000L), UiisConstant.UPI_UTC_FORMAT);
 //		System.out.println(stampToDate);
 		
-		ReportTimer timer = new ReportTimer();
-		timer.getReport();
+//		ReportTimer timer = new ReportTimer();
+//		timer.getReport();
+		
+		double abs = Math.abs(-1.214);
+		System.out.println(abs);
 		
 	}
 

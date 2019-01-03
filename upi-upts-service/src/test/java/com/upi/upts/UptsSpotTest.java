@@ -42,7 +42,7 @@ public class UptsSpotTest {
 		//获取某个ticker信息
 		Ticker instrumentTicker = apiServiceImpl.getInstrumentTicker(instrument);
 		//获取成交数据
-		List<Trades> instrumentTrades = apiServiceImpl.getInstrumentTrades(instrument, 1, 10, 220);
+		List<Trades> instrumentTrades = apiServiceImpl.getInstrumentTrades(instrument, 1, 1, 1);
 		
 		//获取指数信息
 		Index instrumentIndex = apiServiceImpl.getInstrumentIndex(instrument);
@@ -59,7 +59,7 @@ public class UptsSpotTest {
  		System.out.println(JSON.toJSONString(instrumentBook));
  		System.out.println(JSON.toJSONString(allInstrumentTicker));
  		System.out.println(JSON.toJSONString(instrumentTicker));
- 		System.out.println(JSON.toJSONString(instrumentTrades));
+ 		System.out.println("成交记录"+JSON.toJSONString(instrumentTrades));
  		System.out.println(JSON.toJSONString(instrumentIndex));
  		System.out.println(JSON.toJSONString(instrumentLiquidation));
  		System.out.println(JSON.toJSONString(instrumentCandles));

@@ -59,6 +59,10 @@ public class TradeServiceImpl implements TradeService {
 		return tradeRepository.findTradesByFlag(flag);
 	}
 	
+	@Override
+	public List<Trade> getDateData(String date, String flag) {
+		return tradeRepository.findDateData(date, flag);
+	}
 	/**
 	 * 建仓
 	 * @param candle
@@ -447,4 +451,6 @@ public class TradeServiceImpl implements TradeService {
 			log.info("强制平仓单更新完毕");
 		}
 	}
+
+	
 }

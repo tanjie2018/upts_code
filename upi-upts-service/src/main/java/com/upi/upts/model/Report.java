@@ -23,7 +23,7 @@ public class Report implements Cloneable{
 	//日爆仓单数
 	private String forceOrderNum;
 	//日爆仓单损失
-	private String forceOrderCost;
+	private BigDecimal forceOrderCost;
 	//日利润，当日平仓
 	private BigDecimal sprofit;
 	//消失成本，未完成订单按现价平仓时的亏损值，
