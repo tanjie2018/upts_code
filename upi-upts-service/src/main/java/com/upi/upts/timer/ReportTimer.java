@@ -68,10 +68,14 @@ public class ReportTimer {
 		TimerTask task = new TimerTask() {
 			@Override
 			public void run() {
-				List<Trades> trades = getApiServiceImpl().getInstrumentTrades(UiisConstant.instrumentId, 1, 1, 1);
-				Double price = trades.get(0).getPrice();
-				logger.info("日终清算价格："+price);
-				reportServiceImpl.insert(saveReport(price));
+				try {
+					List<Trades> trades = getApiServiceImpl().getInstrumentTrades(UiisConstant.instrumentId, 1, 1, 1);
+					Double price = trades.get(0).getPrice();
+					logger.info("日终清算价格："+price);
+					reportServiceImpl.insert(saveReport(price));
+				} catch (Exception e) {
+					logger.error("日终清算定时器运行异常",e);
+				}
 			}
 		};
 		//执行task任务，tDate只开始执行的时间，间隔时间 1000*60*60*24

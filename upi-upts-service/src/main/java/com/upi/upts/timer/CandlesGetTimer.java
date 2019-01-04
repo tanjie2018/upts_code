@@ -73,7 +73,7 @@
 //			        		TrendTask task = applicationContext.getBean(TrendTask.class);
 //			        		task.init(candle, "DC");
 //			        		ThreadUtil.getThreadPoolExecutor().submit(task);
-////			        		candleServiceImpl.insert(candle);
+//			        		candleServiceImpl.insert(candle);
 //			        	}
 //					}
 //		        	

@@ -9,6 +9,7 @@ import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -49,24 +50,28 @@ public class CandleGetTimer {
 	public void getTrade() {
 		 Runnable runnable = new Runnable() {  
 		        public void run() {  
-		        	JSONArray candles = null;
-					try {
-						candles = getApiServiceImpl().getInstrumentCandles(UiisConstant.instrumentId, StringUtil.getUTCTimeOffset(600000L), "", 300);
+		        	try {
+						JSONArray candles = null;
+						try {
+							candles = getApiServiceImpl().getInstrumentCandles(UiisConstant.instrumentId, StringUtil.getUTCTimeOffset(600000L), "", 300);
+						} catch (Exception e) {
+							logger.error("API调用异常",e);
+							return;
+						}
+						String[] strs = candles.getString(1).replace("[", "").replace("]", "").split(",");
+						String candleId = String.valueOf(Double.valueOf(strs[0]).longValue());
+						if(!candleId.equals(id)) {
+							id = candleId;
+							Candle candle = UptsUtil.strToCandle(strs);
+							logger.info("获取candle为："+candle);
+							TrendTask task = applicationContext.getBean(TrendTask.class);
+							task.init(candle, "SC");
+							ThreadUtil.getThreadPoolExecutor().submit(task);
+							candleServiceImpl.insert(candle);
+						}
 					} catch (Exception e) {
-						logger.error("API调用异常",e);
-						return;
-					}
-		        	String[] strs = candles.getString(1).replace("[", "").replace("]", "").split(",");
-		        	String candleId = String.valueOf(Double.valueOf(strs[0]).longValue());
-		        	if(!candleId.equals(id)) {
-		        		id = candleId;
-		        		Candle candle = UptsUtil.strToCandle(strs);
-		        		logger.info("获取candle为："+candle);
-		        		TrendTask task = applicationContext.getBean(TrendTask.class);
-		        		task.init(candle, "SC");
-		        		ThreadUtil.getThreadPoolExecutor().submit(task);
-		        		candleServiceImpl.insert(candle);
-		        	}
+						logger.error("行情定时器运行异常",e);
+					} 
 //		        	logger.info("成交单号："+trades.getTrade_id()+",成交价格："+trades.getPrice()+",成交时间："+trades.getTimestamp()+",成交方向"+trades.getSide());
 		        }  
 		    };  

@@ -18,7 +18,7 @@ public class CandleServiceImpl implements CandleService {
 	
 	@Override
 	public void insert(Candle candle) {
-		log.info(candle.toString());
+		log.info("Candle入库信息"+candle.toString());
 		try {
 			candleRepository.save(candle);
 		} catch (Exception e) {
