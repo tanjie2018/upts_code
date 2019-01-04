@@ -53,7 +53,7 @@ public class CandleGetTimer {
 		        	try {
 						JSONArray candles = null;
 						try {
-							candles = getApiServiceImpl().getInstrumentCandles(UiisConstant.instrumentId, StringUtil.getUTCTimeOffset(600000L), "", 300);
+							candles = getApiServiceImpl().getInstrumentCandles(UiisConstant.instrumentId, StringUtil.getUTCTimeOffset(720000L), "", 300);
 						} catch (Exception e) {
 							logger.error("API调用异常",e);
 							return;
