@@ -143,6 +143,12 @@ public class TrendTask implements ITask{
 				tradeServiceImpl.closeNlOrder(candle, level);
 				trend.setIsCloseOrder(true);
 				log.info("卖点处理完毕："+candle);
+				
+				//修改点1
+				//如果出现卖点且方向与趋势相同，且非买点，且趋势上的买单已完成，则在该时间点重新下该趋势上的订单，因为这种情况下该趋势原订单已备平仓
+//				if(!trend.getIsBuyPoint()&&trend.getIsOpenOrder()&&trend.getCurTrendDirec().equals(trend.getCurDirec())) {
+//					tradeServiceImpl.openNlOrder(candle, level);
+//				}
 			}
 			
 			//判断是否主动平仓
