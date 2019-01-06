@@ -1,5 +1,7 @@
 package com.upi.upts.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,12 @@ public class CandleServiceImpl implements CandleService {
 			log.error("行情数据入库异常",e);
 		}
 		log.info("完成入库");
+	}
+
+	@Override
+	public List<Candle> getAllCandles() {
+		List<Candle> candlesList = candleRepository.findAll();
+		return candlesList;
 	}
 
 }

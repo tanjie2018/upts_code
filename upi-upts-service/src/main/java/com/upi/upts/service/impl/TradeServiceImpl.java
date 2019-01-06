@@ -282,7 +282,7 @@ public class TradeServiceImpl implements TradeService {
 				for(int i=tList.size()-1;i>=0;i--) {
 					iTrade = tList.get(i);
 					if("2".equals(iTrade.getFlag())) {
-						if((candle.getHigh()-iTrade.getBprice())/iTrade.getBprice()>=0.1) {
+						if((candle.getHigh()-iTrade.getBprice())/iTrade.getBprice()>=UiisConstant.FORCE_PERCENT) {
 							dealForceOrder(iTrade,candle);
 							log.info("爆仓单平仓："+iTrade);
 							tList.remove(i);
@@ -303,7 +303,7 @@ public class TradeServiceImpl implements TradeService {
 				for(int i=tList.size()-1;i>=0;i--) {
 					iTrade = tList.get(i);
 					if("2".equals(iTrade.getFlag())) {
-						if((candle.getLow()-iTrade.getBprice())/iTrade.getBprice()<-0.1) {
+						if((candle.getLow()-iTrade.getBprice())/iTrade.getBprice()<-UiisConstant.FORCE_PERCENT) {
 							dealForceOrder(iTrade,candle);
 							log.info("爆仓单平仓："+iTrade);
 							tList.remove(iTrade);
@@ -357,7 +357,7 @@ public class TradeServiceImpl implements TradeService {
 				for(int i=tList.size()-1;i>=0;i--) {
 					iTrade = tList.get(i);
 					if("2".equals(iTrade.getFlag())) {
-						if((candle.getHigh()-iTrade.getBprice())/iTrade.getBprice()>=0.1) {
+						if((candle.getHigh()-iTrade.getBprice())/iTrade.getBprice()>=UiisConstant.FORCE_PERCENT) {
 							dealForceOrder(iTrade,candle);
 							log.info("爆仓单平仓："+iTrade);
 							tList.remove(i);
@@ -372,7 +372,7 @@ public class TradeServiceImpl implements TradeService {
 				for(int i=tList.size()-1;i>=0;i--) {
 					iTrade = tList.get(i);
 					if("2".equals(iTrade.getFlag())) {
-						if((candle.getLow()-iTrade.getBprice())/iTrade.getBprice()<-0.1) {
+						if((candle.getLow()-iTrade.getBprice())/iTrade.getBprice()<-UiisConstant.FORCE_PERCENT) {
 							dealForceOrder(iTrade,candle);
 							log.info("爆仓单平仓："+iTrade);
 							tList.remove(iTrade);
@@ -391,15 +391,15 @@ public class TradeServiceImpl implements TradeService {
 	private void dealForceOrder(Trade trade,Candle candle) {
 		trade.setStime(candle.getTime());
 		if(candle.getProp().equals(UiisConstant.UP)) {
-			trade.setSprice(trade.getBprice()*(1.1));
-			trade.setSsum(trade.getBsum()*(1.1));
+			trade.setSprice(trade.getBprice()*(1+UiisConstant.FORCE_PERCENT));
+			trade.setSsum(trade.getBsum()*(1+UiisConstant.FORCE_PERCENT));
 			trade.setProfit(BigDecimal.valueOf(trade.getBsum()-trade.getSsum()).setScale(3, BigDecimal.ROUND_HALF_UP));
-			trade.setRang(BigDecimal.valueOf(-10L).setScale(3, BigDecimal.ROUND_HALF_UP));
+			trade.setRang(BigDecimal.valueOf(-UiisConstant.FORCE_PERCENT*100).setScale(3, BigDecimal.ROUND_HALF_UP));
 		}else {
-			trade.setSprice(trade.getBprice()*(0.9));
-			trade.setSsum(trade.getBsum()*(0.9));
+			trade.setSprice(trade.getBprice()*(1-UiisConstant.FORCE_PERCENT));
+			trade.setSsum(trade.getBsum()*(1-UiisConstant.FORCE_PERCENT));
 			trade.setProfit(BigDecimal.valueOf(trade.getSsum()-trade.getBsum()).setScale(3, BigDecimal.ROUND_HALF_UP));
-			trade.setRang(BigDecimal.valueOf(-10L).setScale(3, BigDecimal.ROUND_HALF_UP));
+			trade.setRang(BigDecimal.valueOf(-UiisConstant.FORCE_PERCENT*100).setScale(3, BigDecimal.ROUND_HALF_UP));
 		}
 		trade.setFlag("4");
 		try {
