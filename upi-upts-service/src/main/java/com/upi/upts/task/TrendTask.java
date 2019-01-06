@@ -75,18 +75,24 @@ public class TrendTask implements ITask{
 			//买点判断
 			if(!trend.getIsOpenOrder()&&UiisConstant.UP.equals(trend.getCurTrendDirec())&&UiisConstant.UP.equals(candle.getProp())) {
 				//满足买多
+				log.info("买多第一步成立");
 				if(UiisConstant.UP.equals(cur.getProp())&&candle.getClose()>cur.getClose()) {
+					log.info("买多第二步成立");
 					trend.setIsBuyPoint(true);
 				}else if(UiisConstant.DOWN.equals(cur.getProp())&&candle.getClose()>cur.getOpen()) {
+					log.info("买多第二步成立");
 					trend.setIsBuyPoint(true);
 				}else {
 					trend.setIsBuyPoint(false);
 				}
 			}else if(!trend.getIsOpenOrder()&&UiisConstant.DOWN.equals(trend.getCurTrendDirec())&&UiisConstant.DOWN.equals(candle.getProp())){
+				log.info("买空第一步成立");
 				//满足买空
 				if(UiisConstant.UP.equals(cur.getProp())&&candle.getClose()<cur.getOpen()) {
+					log.info("买空第二步成立");
 					trend.setIsBuyPoint(true);
 				}else if(UiisConstant.DOWN.equals(cur.getProp())&&candle.getClose()<cur.getClose()) {
+					log.info("买空第二步成立");
 					trend.setIsBuyPoint(true);
 				}else {
 					trend.setIsBuyPoint(false);
