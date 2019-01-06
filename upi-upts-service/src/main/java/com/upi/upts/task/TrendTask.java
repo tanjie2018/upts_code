@@ -38,8 +38,8 @@ public class TrendTask implements ITask{
 			
 			trend.setPre(cur);
 			trend.setCur(candle);
-			if(candle.getHigh()<=cur.getHigh()&&candle.getLow()>=cur.getLow()) {
-				//K1包含K2则趋势不变，方向不变
+			if((candle.getHigh()<=cur.getHigh()&&candle.getLow()>=cur.getLow())||UiisConstant.CENTRE.equals(candle.getProp())) {
+				//K1包含K2则趋势不变，方向不变,如开盘和收盘一样，忽略
 				return null;
 			}
 			//赋值K1方向
@@ -100,8 +100,10 @@ public class TrendTask implements ITask{
 				log.info("卖空第一步成立："+candle);
 				//判断卖空
 				if (cur.getProp().equals(UiisConstant.DOWN)&&candle.getClose()>cur.getOpen()) {
+					log.info("卖空第二部成立："+"candle.getClose():"+candle.getClose()+",cur.getClose():"+cur.getOpen());
 					trend.setIsSellPoint(true);
 				}else if(cur.getProp().equals(UiisConstant.UP)&&candle.getClose()>cur.getClose()) {
+					log.info("卖空第二部成立："+"candle.getClose():"+candle.getClose()+",cur.getClose():"+cur.getClose());
 					trend.setIsSellPoint(true);
 				}else {
 					trend.setIsSellPoint(false);
@@ -111,8 +113,10 @@ public class TrendTask implements ITask{
 				log.info("卖多第一步成立："+candle);
 				//判断卖多
 				if(cur.getProp().equals(UiisConstant.DOWN)&&candle.getClose()<cur.getClose()) {
+					log.info("卖多第二部成立："+"candle.getClose():"+candle.getClose()+",cur.getClose():"+cur.getClose());
 					trend.setIsSellPoint(true);
 				}else if(cur.getProp().equals(UiisConstant.UP)&&candle.getClose()<cur.getOpen()) {
+					log.info("卖多第二部成立："+"candle.getClose():"+candle.getClose()+",cur.getOpen():"+cur.getOpen());
 					trend.setIsSellPoint(true);
 				}else {
 					trend.setIsSellPoint(false);
@@ -144,11 +148,14 @@ public class TrendTask implements ITask{
 				trend.setIsCloseOrder(true);
 				log.info("卖点处理完毕："+candle);
 				
-				//修改点1
-				//如果出现卖点且方向与趋势相同，且非买点，且趋势上的买单已完成，则在该时间点重新下该趋势上的订单，因为这种情况下该趋势原订单已备平仓
+//				修改点1,测试不通过
+//				如果出现卖点且方向与趋势相同，且非买点，且趋势上的买单已完成，则在该时间点重新下该趋势上的订单，因为这种情况下该趋势原订单已备平仓
 //				if(!trend.getIsBuyPoint()&&trend.getIsOpenOrder()&&trend.getCurTrendDirec().equals(trend.getCurDirec())) {
 //					tradeServiceImpl.openNlOrder(candle, level);
 //				}
+				
+//				修改点2：做分钟线
+//				需将一些K线做近视处理，否则将难以判断
 			}
 			
 			//判断是否主动平仓

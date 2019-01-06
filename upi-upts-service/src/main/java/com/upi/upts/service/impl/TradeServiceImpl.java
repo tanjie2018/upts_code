@@ -231,6 +231,9 @@ public class TradeServiceImpl implements TradeService {
 			if(!StringUtil.isEmpty(tList)&&tList.size()>0) {
 				log.info("N卖空处理，队列深度为："+tList.size());
 				trade = tList.getLast();
+				if("2".equals(trade.getFlag())) {
+					return;
+				}
 				if(trade.getBprice()<candle.getClose()) {
 					trade.setFlag("2");
 					update(trade);
@@ -242,6 +245,9 @@ public class TradeServiceImpl implements TradeService {
 			if(!StringUtil.isEmpty(tList)&&tList.size()>0) {
 				log.info("N卖多处理，队列深度为："+tList.size());
 				trade = tList.getLast();
+				if("2".equals(trade.getFlag())) {
+					return;
+				}
 				if(trade.getBprice()>candle.getClose()) {
 					trade.setFlag("2");
 					update(trade);

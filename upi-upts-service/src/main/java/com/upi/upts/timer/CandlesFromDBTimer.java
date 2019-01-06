@@ -52,7 +52,7 @@
 //					logger.info("candlesSize:"+candlesList.size());
 //					for(Candle candle : candlesList) {
 //						try {
-//							Thread.sleep(1000);
+//							Thread.sleep(200);
 //						} catch (InterruptedException e) {
 //							logger.error("线程休眠异常");
 //						}
