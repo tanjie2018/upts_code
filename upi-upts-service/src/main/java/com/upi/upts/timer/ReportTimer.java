@@ -145,6 +145,7 @@ public class ReportTimer {
 			report.setScost(undoSum);
 		}
 		report.setId(settleDate);
+		report.setProfit(report.getSprofit().add(report.getForceOrderCost()).setScale(3, BigDecimal.ROUND_HALF_UP));
 		return report;
 	}
 }
