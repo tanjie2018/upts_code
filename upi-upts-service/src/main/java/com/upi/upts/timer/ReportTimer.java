@@ -68,13 +68,16 @@ public class ReportTimer {
 		TimerTask task = new TimerTask() {
 			@Override
 			public void run() {
+				long start = System.currentTimeMillis();
 				try {
 					List<Trades> trades = getApiServiceImpl().getInstrumentTrades(UiisConstant.instrumentId, 1, 1, 1);
 					Double price = trades.get(0).getPrice();
 					logger.info("日终清算价格："+price);
 					reportServiceImpl.insert(saveReport(price));
 				} catch (Exception e) {
-					logger.error("日终清算定时器运行异常",e);
+					long end = System.currentTimeMillis();
+					long interval = end-start;
+					logger.error("日终清算定时器运行异常,耗时时间："+interval,e);
 				}
 			}
 		};

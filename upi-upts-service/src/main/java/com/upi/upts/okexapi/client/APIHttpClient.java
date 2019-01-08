@@ -68,9 +68,9 @@ public class APIHttpClient {
         if(!"null".equals(LocalConfig.getProxyHost())&&LocalConfig.getProxyPort()!=0) {
         	clientBuilder.proxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress(LocalConfig.getProxyHost(), LocalConfig.getProxyPort())));
         }
-        clientBuilder.connectTimeout(this.config.getConnectTimeout(), TimeUnit.SECONDS);
-        clientBuilder.readTimeout(this.config.getReadTimeout(), TimeUnit.SECONDS);
-        clientBuilder.writeTimeout(this.config.getWriteTimeout(), TimeUnit.SECONDS);
+        clientBuilder.connectTimeout(this.config.getConnectTimeout(), TimeUnit.MILLISECONDS);
+        clientBuilder.readTimeout(this.config.getReadTimeout(), TimeUnit.MILLISECONDS);
+        clientBuilder.writeTimeout(this.config.getWriteTimeout(), TimeUnit.MILLISECONDS);
         clientBuilder.retryOnConnectionFailure(this.config.isRetryOnConnectionFailure());
         clientBuilder.addInterceptor((Interceptor.Chain chain) -> {
             final Request.Builder requestBuilder = chain.request().newBuilder();

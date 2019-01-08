@@ -25,7 +25,7 @@ public class DateUtils {
     public static String TIME_STYLE_S5 = "yyyy-MM-dd HH:mm:ss:S E zZ";
     public static String TIME_STYLE_S6 = "yyyyMMddHHmmssS";
     public static String TIME_STYLE_S7 = "yyyy年MM月dd日HH时mm分ss秒";
-    public static SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.S'Z'");
+    public static SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
     static {
         DateUtils.SDF.setTimeZone(TimeZone.getTimeZone("UTC"));

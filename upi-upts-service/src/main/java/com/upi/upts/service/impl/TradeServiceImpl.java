@@ -76,7 +76,7 @@ public class TradeServiceImpl implements TradeService {
 		trade.setBprice(candle.getClose());
 		
 		trade.setStrategy(level);
-		trade.setSize((int) (10000/trade.getBprice()));
+		trade.setSize((int) (UiisConstant.ORDER_AMOUNT/trade.getBprice()));
 		trade.setBsum(trade.getBprice()*trade.getSize());
 		trade.setFlag("0");
 		if(UiisConstant.UP.equals(candle.getProp())) {
@@ -171,7 +171,7 @@ public class TradeServiceImpl implements TradeService {
 		trade.setBprice(candle.getClose());
 		
 		trade.setStrategy(level);
-		trade.setSize((int) (10000/trade.getBprice()));
+		trade.setSize((int) (UiisConstant.ORDER_AMOUNT/trade.getBprice()));
 		trade.setBsum(trade.getBprice()*trade.getSize());
 		trade.setFlag("0");
 		if(UiisConstant.UP.equals(candle.getProp())) {

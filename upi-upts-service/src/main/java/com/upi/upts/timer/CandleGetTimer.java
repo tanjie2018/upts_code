@@ -52,10 +52,13 @@ public class CandleGetTimer {
 		        public void run() {  
 		        	try {
 						JSONArray candles = null;
+						long start = System.currentTimeMillis();
 						try {
 							candles = getApiServiceImpl().getInstrumentCandles(UiisConstant.instrumentId, StringUtil.getUTCTimeOffset(720000L), "", 300);
 						} catch (Exception e) {
-							logger.error("API调用异常",e);
+							long end = System.currentTimeMillis();
+							long interval = end-start;
+							logger.error("API调用异常,耗时时间："+interval,e);
 							return;
 						}
 						String[] strs = candles.getString(1).replace("[", "").replace("]", "").split(",");
@@ -77,7 +80,8 @@ public class CandleGetTimer {
 		    };  
 		 ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();  
 		 // 第二个参数为首次执行的延时时间，第三个参数为定时执行的间隔时间  
-		 service.scheduleAtFixedRate(runnable, 5, 1, TimeUnit.SECONDS); 
+//		 service.scheduleAtFixedRate(runnable, 5, 1, TimeUnit.SECONDS); 
+		 service.scheduleWithFixedDelay(runnable, 5000, UiisConstant.InitialDelay, TimeUnit.MILLISECONDS);//两次调用间隔300毫秒
 	}
 	
 	private static FuturesMarketAPIServiceImpl getApiServiceImpl() {

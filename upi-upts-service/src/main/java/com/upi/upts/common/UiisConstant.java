@@ -10,7 +10,7 @@ import java.util.HashMap;
 public class UiisConstant {
 
 	/*******************线程池参数***********************/
-	public static final String instrumentId = "ETH-USD-190329";
+	public static final String instrumentId = LocalConfig.getInstrumentId();
 	
 	public static final int FIVE_MINUTES = 300;
 	public static final int THIRTY_MINUTES = 1800;
@@ -40,20 +40,23 @@ public class UiisConstant {
 	public static final String BUY = "buy";
 	public static final String SELL = "sell";
 	
-	public static final Double DEEP = 0.008;
-	public static final Double FORCE_PERCENT = 0.09;
+	public static final Double DEEP = LocalConfig.getDeep();
+	public static final Double FORCE_PERCENT = LocalConfig.getForcePercent();
+	public static final int ORDER_AMOUNT = LocalConfig.getOrderAmount();
+	public static final Long InitialDelay = LocalConfig.getInitialDelay();
 	
-	public static final int MAXINUM_POOL_SIZE = 2000;	
-	public static final int CORE_POOL_SIZE = 1000;
-	public static final long KEEP_ALIVE_TIME = 600L;
-	public static final int CAPACITY = 1000;
+//	public static final int MAXINUM_POOL_SIZE = 2000;	
+//	public static final int CORE_POOL_SIZE = 1000;
+//	public static final long KEEP_ALIVE_TIME = 600L;
+//	public static final int CAPACITY = 1000;
     
 	public static final String UPI_DATE_FORMAT = "yyyyMMdd";
 	public static final String UPI_TIME_FORMAT = "yyyyMMddHHmmss";
 	public static final String UPI_MILLISECOND_FORMAT = "yyyyMMddHHmmssSSS";
 	public static final String UPI_NORMAL_FORMAT = "yyyy-MM-dd HH:mm:ss";
 	public static final String UPI_NORMAL_DATE = "yyyy-MM-dd";
-	public static final String UPI_UTC_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.S'Z'";
+//	public static final String UPI_UTC_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.S'Z'";
+	public static final String UPI_UTC_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 	
 	public static final String BUY_QUEURE_SIZE = "buyQueueSize";//历史买队列深度--不支持分布式
 	public static final String SELL_QUEURE_SIZE = "sellQueueSize";//历史卖队列深度--不支持分布式

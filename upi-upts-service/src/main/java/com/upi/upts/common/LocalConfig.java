@@ -20,7 +20,7 @@ public class LocalConfig {
 	
 	private static final Logger log = LoggerFactory.getLogger(LocalConfig.class);
 
-	public static LocalConfig localConfig;
+	private static LocalConfig localConfig;
 
 	@Value("${proxy.ip:null}")
 	private String proxyHost;
@@ -37,6 +37,19 @@ public class LocalConfig {
 	private long keepAliveTime;
 	@Value("${poll.capacity:1000}")
 	private int capacity;
+	
+	@Value("${upts.instrumentId}")
+	private String instrumentId;
+	@Value("${upts.deep:0.008}")
+	private Double deep;
+	@Value("${upts.forcePercent:0.09}")
+	private Double forcePercent;
+	@Value("${upts.orderAmount:10000}")
+	private int orderAmount;
+	
+	@Value("${upts.initialDelay:300}")
+	private Long initialDelay;
+	
 	
 	@PostConstruct
 	private void init() {
@@ -82,4 +95,21 @@ public class LocalConfig {
 	public int getCapacity() {
 		return capacity;
 	}
+	
+	public static String getInstrumentId() {
+		return localConfig.instrumentId;
+	}
+	public static Double getDeep() {
+		return localConfig.deep;
+	}
+	public static Double getForcePercent() {
+		return localConfig.forcePercent;
+	}
+	public static Integer getOrderAmount() {
+		return localConfig.orderAmount;
+	}
+	public static Long getInitialDelay() {
+		return localConfig.initialDelay;
+	}
+	
 }

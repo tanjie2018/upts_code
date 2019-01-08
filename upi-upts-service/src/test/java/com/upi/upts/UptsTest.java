@@ -1,6 +1,7 @@
 package com.upi.upts;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -49,10 +50,27 @@ public class UptsTest {
 		
 //		ReportTimer timer = new ReportTimer();
 //		timer.getReport();
-		
-		double abs = Math.abs(-1.214);
-		System.out.println(abs);
+		//"2019-01-08T09:15:38Z"
+		String utcTimeOffset = getUTCTimeOffset(720000);
+		System.out.println(utcTimeOffset);
 		
 	}
+	
+	 public static String getUTCTimeOffset(long offset) {
+	        String res;
+	        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(UiisConstant.UPI_UTC_FORMAT);
+	        Date date = null;
+	        System.out.println(DateUtils.getUnixTime());
+			try {
+//				date = simpleDateFormat.parse("2019-01-08T09:15:38Z");
+				date = simpleDateFormat.parse(DateUtils.getUnixTime());
+			} catch (ParseException e) {
+				System.out.println(e);
+			}
+	        long ts = date.getTime()-offset;
+	        date = new Date(ts);
+	        res = simpleDateFormat.format(date);
+	        return res;
+	    }
 
 }

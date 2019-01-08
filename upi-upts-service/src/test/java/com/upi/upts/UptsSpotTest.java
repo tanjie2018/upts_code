@@ -51,8 +51,8 @@ public class UptsSpotTest {
 		//获取K线数据
 		//[timestamp,open,high,low,close,volume,currency_volume]
 //		JSONArray instrumentCandles = apiServiceImpl.getInstrumentCandles("ETH-USD-181228", "2018-12-17T02:31:00Z", "2018-12-17T09:55:00Z", 3000);
-//		JSONArray instrumentCandles = apiServiceImpl.getInstrumentCandles("ETH-USD-181228", "", "", 300);
-		JSONArray instrumentCandles = apiServiceImpl.getInstrumentCandles(instrument, StringUtil.getUTCTimeOffset(720000L), "", 300);
+		JSONArray instrumentCandles = apiServiceImpl.getInstrumentCandles("ETH-USD-181228", "", "", 300);
+//		JSONArray instrumentCandles = apiServiceImpl.getInstrumentCandles(instrument, StringUtil.getUTCTimeOffset(720000L), "", 300);
 		
 		
  		System.out.println(JSON.toJSONString(instruments));

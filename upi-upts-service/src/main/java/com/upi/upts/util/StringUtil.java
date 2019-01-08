@@ -393,16 +393,13 @@ public class StringUtil {
     
     /**
      * 获取某一偏移的UTC时间
+     * @throws ParseException 
      */    
-    public static String getUTCTimeOffset(long offset) {
+    public static String getUTCTimeOffset(long offset) throws ParseException {
         String res;
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(UiisConstant.UPI_UTC_FORMAT);
         Date date = null;
-		try {
-			date = simpleDateFormat.parse(DateUtils.getUnixTime());
-		} catch (ParseException e) {
-			logger.error("时间转换异常",e);
-		}
+		date = simpleDateFormat.parse(DateUtils.getUnixTime());
         long ts = date.getTime()-offset;
         date = new Date(ts);
         res = simpleDateFormat.format(date);
