@@ -1,10 +1,13 @@
 package com.upi.upts;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.upi.upts.common.CommonVO;
@@ -51,8 +54,25 @@ public class UptsTest {
 //		ReportTimer timer = new ReportTimer();
 //		timer.getReport();
 		//"2019-01-08T09:15:38Z"
-		String utcTimeOffset = getUTCTimeOffset(720000);
-		System.out.println(utcTimeOffset);
+		for(int i=0;i<100;i++) {
+			try {
+				String utcTimeOffset = getUTCTimeOffset(720000);
+				System.out.println("style1:"+utcTimeOffset);
+				
+				try {
+					String utcTimeOffset2 = StringUtil.getUTCTimeOffset(720000);
+					System.out.println("style2:"+utcTimeOffset2);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				Thread.sleep(300);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		
 	}
 	
@@ -60,7 +80,6 @@ public class UptsTest {
 	        String res;
 	        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(UiisConstant.UPI_UTC_FORMAT);
 	        Date date = null;
-	        System.out.println(DateUtils.getUnixTime());
 			try {
 //				date = simpleDateFormat.parse("2019-01-08T09:15:38Z");
 				date = simpleDateFormat.parse(DateUtils.getUnixTime());
@@ -72,5 +91,31 @@ public class UptsTest {
 	        res = simpleDateFormat.format(date);
 	        return res;
 	    }
+	 
+	 public static void getCurrentUtcTime() {
+	        Date l_datetime = new Date();
+	        DateFormat formatter = new SimpleDateFormat(UiisConstant.UPI_UTC_FORMAT);
+	        TimeZone l_timezone = TimeZone.getTimeZone("GMT-0");
+	        formatter.setTimeZone(l_timezone);
+	        String l_utc_date = formatter.format(l_datetime);
+	        System.out.println(l_utc_date +"(Local)");
+	 }
+	 
+	 public static String getUTCTimeStr() {
+		 	TimeZone l_timezone = TimeZone.getTimeZone("GMT-0");
+			Calendar cal = Calendar.getInstance(l_timezone);
+			String valueOf = String.valueOf(cal.getTimeInMillis());
+			System.out.println(valueOf);
+			
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(UiisConstant.UPI_UTC_FORMAT);
+			simpleDateFormat.setTimeZone(l_timezone);
+			Date date = new Date(cal.getTimeInMillis()-720000);
+			String format = simpleDateFormat.format(date);
+			System.out.println(format);
+			Date date2 = new Date(System.currentTimeMillis()-720000);
+			format = simpleDateFormat.format(date2);
+			System.out.println(format);
+			return format;
+	}
 
 }

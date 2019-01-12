@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.TimeZone;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -396,14 +397,19 @@ public class StringUtil {
      * @throws ParseException 
      */    
     public static String getUTCTimeOffset(long offset) throws ParseException {
-        String res;
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(UiisConstant.UPI_UTC_FORMAT);
-        Date date = null;
-		date = simpleDateFormat.parse(DateUtils.getUnixTime());
-        long ts = date.getTime()-offset;
-        date = new Date(ts);
-        res = simpleDateFormat.format(date);
-        return res;
+//        String res;
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(UiisConstant.UPI_UTC_FORMAT);
+//        Date date = null;
+//		date = simpleDateFormat.parse(DateUtils.getUnixTime());
+//        long ts = date.getTime()-offset;
+//        date = new Date(ts);
+//        res = simpleDateFormat.format(date);
+//        return res;
+    	TimeZone timezone = TimeZone.getTimeZone("GMT-0");
+    	SimpleDateFormat format = new SimpleDateFormat(UiisConstant.UPI_UTC_FORMAT);
+    	format.setTimeZone(timezone);
+		Date date = new Date(System.currentTimeMillis()-offset);
+		return format.format(date);
     }
     
     /**
