@@ -17,9 +17,11 @@ import org.springframework.stereotype.Component;
 import com.alibaba.fastjson.JSONArray;
 import com.upi.upts.common.UiisConstant;
 import com.upi.upts.model.Candle;
+import com.upi.upts.model.Dcandle;
 import com.upi.upts.okexapi.config.APIConfiguration;
 import com.upi.upts.okexapi.service.futures.impl.FuturesMarketAPIServiceImpl;
 import com.upi.upts.service.impl.CandleServiceImpl;
+import com.upi.upts.service.impl.DcandleServiceImpl;
 import com.upi.upts.task.TrendTask;
 import com.upi.upts.util.BaseConfigration;
 import com.upi.upts.util.StringUtil;
@@ -27,18 +29,18 @@ import com.upi.upts.util.ThreadUtil;
 import com.upi.upts.util.UptsUtil;
 
 /**
- * 每秒获取一次K线信息
+ * 每秒获取一次K线信息,分钟线
  * @author tanjie
  */
 @Component
-public class CandleGetTimer {
+public class DcandleGetTimer {
 
-	private static Logger logger = LoggerFactory.getLogger(CandleGetTimer.class);
+	private static Logger logger = LoggerFactory.getLogger(DcandleGetTimer.class);
 	private static FuturesMarketAPIServiceImpl apiServiceImpl;
 	@Autowired
 	private ApplicationContext applicationContext;
 	@Autowired
-	private CandleServiceImpl candleServiceImpl;
+	private DcandleServiceImpl candleServiceImpl;
 	private static LinkedList<String> idList = new LinkedList<>();
 	@PostConstruct
 	public void init() {
@@ -52,7 +54,7 @@ public class CandleGetTimer {
 						JSONArray candles = null;
 						long start = System.currentTimeMillis();
 						try {
-							candles = getApiServiceImpl().getInstrumentCandles(UiisConstant.instrumentId, StringUtil.getUTCTimeOffset(720000L), "", 300);
+							candles = getApiServiceImpl().getInstrumentCandles(UiisConstant.instrumentId, StringUtil.getUTCTimeOffset(720000L), "", 60);
 						} catch (Exception e) {
 							long end = System.currentTimeMillis();
 							long interval = end-start;
@@ -61,12 +63,15 @@ public class CandleGetTimer {
 						}
 						String[] strs = candles.getString(1).replace("[", "").replace("]", "").split(",");
 						String candleId = String.valueOf(Double.valueOf(strs[0]).longValue());
+						Double volume = Double.valueOf(strs[6]);
+						
 						if(!idList.contains(candleId)) {
 							idList.addLast(candleId);
 							if(idList.size()>3) {
 								idList.removeFirst();
 							}
-							Candle candle = UptsUtil.strToCandle(strs);
+							Dcandle candle = (Dcandle) UptsUtil.strToCandle(strs);
+							candle.setVolume(volume);
 							logger.info("获取candle为："+candle);
 							TrendTask task = applicationContext.getBean(TrendTask.class);
 							task.init(candle, "SC");
@@ -82,7 +87,7 @@ public class CandleGetTimer {
 		 ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();  
 		 // 第二个参数为首次执行的延时时间，第三个参数为定时执行的间隔时间  
 //		 service.scheduleAtFixedRate(runnable, 5, 1, TimeUnit.SECONDS); 
-		 service.scheduleWithFixedDelay(runnable, 5000, UiisConstant.InitialDelay, TimeUnit.MILLISECONDS);//两次调用间隔300毫秒
+		 service.scheduleWithFixedDelay(runnable, 5000, 15000, TimeUnit.MILLISECONDS);//两次调用间隔15秒
 	}
 	
 	private static FuturesMarketAPIServiceImpl getApiServiceImpl() {
