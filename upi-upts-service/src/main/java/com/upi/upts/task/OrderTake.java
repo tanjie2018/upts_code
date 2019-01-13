@@ -18,13 +18,13 @@ import com.upi.upts.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 监控交易订单：查单
+ * 交易订单处理：下单（空多）、撤单
  * @author tanj_5
  */
 @Component
 @Scope("prototype")
 @Slf4j
-public class OrderMonitor implements ITask{
+public class OrderTake implements ITask{
 
 	private String instrumentId;
 	private long orderId;

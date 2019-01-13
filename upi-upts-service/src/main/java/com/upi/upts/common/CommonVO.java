@@ -34,6 +34,9 @@ public class CommonVO {
 	public static ConcurrentHashMap<String, LinkedList<Trade>> nbTradeMap = new ConcurrentHashMap<String, LinkedList<Trade>>();
 	public static ConcurrentHashMap<String, LinkedList<Trade>> nsTradeMap = new ConcurrentHashMap<String, LinkedList<Trade>>();
 	
+	//订单map,Key值为订单号,用于交易监控
+	public static ConcurrentHashMap<String, LinkedList<Trade>> orderMap = new ConcurrentHashMap<String, LinkedList<Trade>>();
+	
 	@PostConstruct
 	void init() {
 		//初始化参数
