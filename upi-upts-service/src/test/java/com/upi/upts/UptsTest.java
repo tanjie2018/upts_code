@@ -12,6 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.upi.upts.common.CommonVO;
 import com.upi.upts.common.UiisConstant;
+import com.upi.upts.control.UptsController;
 import com.upi.upts.model.Trade;
 import com.upi.upts.okexapi.utils.DateUtils;
 import com.upi.upts.timer.ReportTimer;
@@ -54,25 +55,6 @@ public class UptsTest {
 //		ReportTimer timer = new ReportTimer();
 //		timer.getReport();
 		//"2019-01-08T09:15:38Z"
-		for(int i=0;i<100;i++) {
-			try {
-				String utcTimeOffset = getUTCTimeOffset(720000);
-				System.out.println("style1:"+utcTimeOffset);
-				
-				try {
-					String utcTimeOffset2 = StringUtil.getUTCTimeOffset(720000);
-					System.out.println("style2:"+utcTimeOffset2);
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				Thread.sleep(300);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
 		
 	}
 	
