@@ -15,6 +15,7 @@
 //
 //import com.alibaba.fastjson.JSONArray;
 //import com.upi.upts.common.CommonVO;
+//import com.upi.upts.common.LocalConfig;
 //import com.upi.upts.common.UiisConstant;
 //import com.upi.upts.model.Candle;
 //import com.upi.upts.okexapi.bean.futures.result.Trades;
@@ -71,7 +72,7 @@
 //			        		Candle candle = UptsUtil.strToCandle(strs);
 //			        		logger.info("获取candle为："+candle);
 //			        		TrendTask task = applicationContext.getBean(TrendTask.class);
-//			        		task.init(candle, "DC");
+//			        		task.init(candle, "SC");
 //			        		ThreadUtil.getThreadPoolExecutor().submit(task);
 //			        		candleServiceImpl.insert(candle);
 //			        	}

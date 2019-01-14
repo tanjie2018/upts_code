@@ -11,7 +11,7 @@ import lombok.Data;
 @Entity
 @Table(name = "upts_dcandle_info")
 @Data
-public class Dcandle extends Candle implements Cloneable{
+public class Dcandle implements Cloneable{
 	@Id
 	private String id;
 	private String time;
