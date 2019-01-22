@@ -67,6 +67,7 @@ public class UptsController {
 	 */
 	@GetMapping("/upts/report/{date}")
 	public String getReport(@PathVariable String date) {
+		log.info("传入日期："+date);
 		//date传入格式yyyyMMdd
 		SimpleDateFormat format = new SimpleDateFormat(UiisConstant.UPI_DATE_FORMAT);
 		Date formatDate = null;

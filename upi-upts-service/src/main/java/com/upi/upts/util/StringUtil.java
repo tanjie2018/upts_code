@@ -2,6 +2,11 @@ package com.upi.upts.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Clock;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -396,19 +401,12 @@ public class StringUtil {
      * 获取某一偏移的UTC时间
      * @throws ParseException 
      */    
-    public static String getUTCTimeOffset(long offset) throws ParseException {
-//        String res;
-//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(UiisConstant.UPI_UTC_FORMAT);
-//        Date date = null;
-//		date = simpleDateFormat.parse(DateUtils.getUnixTime());
-//        long ts = date.getTime()-offset;
-//        date = new Date(ts);
-//        res = simpleDateFormat.format(date);
-//        return res;
-    	TimeZone timezone = TimeZone.getTimeZone("GMT-0");
-    	SimpleDateFormat format = new SimpleDateFormat(UiisConstant.UPI_UTC_FORMAT);
+    public static String getUnixTimeOffset(long offset,String timeFormat) throws ParseException {
+    	TimeZone timezone = TimeZone.getTimeZone("Z");
+    	SimpleDateFormat format = new SimpleDateFormat(timeFormat);
     	format.setTimeZone(timezone);
 		Date date = new Date(System.currentTimeMillis()-offset);
+//		Date date = new Date(Date.from(Instant.now()).getTime()-offset);
 		return format.format(date);
     }
     
@@ -433,6 +431,40 @@ public class StringUtil {
 		Date dt1 = rightNow.getTime();
 		String reStr = sdf.format(dt1);
 		return reStr;
+	}
+    
+    /**
+     * 将UTC时间转换为东八区时间
+     * @param UTCTime
+     * @return
+     */
+    public static String getLocalTimeFromUTC(String UTCTime,String utcFormat,String parseFormat){
+        Date UTCDate = null ;
+        String localTimeStr = null ;
+        SimpleDateFormat uFormat = new SimpleDateFormat(utcFormat);
+        uFormat.setTimeZone(TimeZone.getTimeZone("Z"));
+        SimpleDateFormat pFormat = new SimpleDateFormat(parseFormat);
+        try {
+            UTCDate = uFormat.parse(UTCTime);
+            localTimeStr = pFormat.format(UTCDate) ;
+        } catch (ParseException e) {
+            logger.error("日期格式转换错误，time:"+UTCTime,e);
+        }
+         
+        return localTimeStr ;
+    }
+    
+    /**
+     * 获取UTC时间
+     * @return
+     * @throws Exception
+     */
+    public static String getUnixTime(String formatStr) throws Exception {
+    	Clock systemUTC = Clock.systemUTC();
+		LocalDateTime now = LocalDateTime.now(systemUTC);
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern(UiisConstant.UPI_UTC_FORMAT);
+		String nowTime = dtf.format(now);
+		return nowTime;
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.upi.upts;
 
+import java.text.ParseException;
 import java.time.Instant;
 import java.util.List;
 
@@ -28,7 +29,7 @@ import com.upi.upts.util.UptsUtil;
 
 public class UptsSpotTest {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ParseException {
 		APIConfiguration config = BaseConfigration.config();
 		String instrument = "ETH-USD-190329";
 		FuturesMarketAPIServiceImpl apiServiceImpl = new FuturesMarketAPIServiceImpl(config);
@@ -51,8 +52,9 @@ public class UptsSpotTest {
 		//获取K线数据
 		//[timestamp,open,high,low,close,volume,currency_volume]
 //		JSONArray instrumentCandles = apiServiceImpl.getInstrumentCandles("ETH-USD-181228", "2018-12-17T02:31:00Z", "2018-12-17T09:55:00Z", 3000);
-		JSONArray instrumentCandles = apiServiceImpl.getInstrumentCandles("ETH-USD-181228", "", "", 300);
-//		JSONArray instrumentCandles = apiServiceImpl.getInstrumentCandles(instrument, StringUtil.getUTCTimeOffset(720000L), "", 300);
+//		JSONArray instrumentCandles = apiServiceImpl.getInstrumentCandles(instrument, "2019-01-20T04:22:36Z", "", 300);
+		System.out.println("hahah:"+StringUtil.getUnixTimeOffset(720000L,UiisConstant.UPI_UTC_TIME));
+		JSONArray instrumentCandles = apiServiceImpl.getInstrumentCandles(instrument, StringUtil.getUnixTimeOffset(720000L,UiisConstant.UPI_UTC_TIME), "", 300);
 		
 		
  		System.out.println(JSON.toJSONString(instruments));
@@ -63,8 +65,11 @@ public class UptsSpotTest {
  		System.out.println(JSON.toJSONString(instrumentIndex));
  		System.out.println(JSON.toJSONString(instrumentLiquidation));
  		System.out.println(JSON.toJSONString(instrumentCandles));
-		
-
+ 		String[] strs = instrumentCandles.getString(1).replace("[", "").replace("]", "").split(",");
+ 		String candleId = strs[0];
+ 		System.out.println(candleId);
+ 		Candle candle = UptsUtil.strToCandle(strs);
+ 		System.out.println(candle);
 	}
 	
 	 public static String getUnixTime() {

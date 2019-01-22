@@ -3,6 +3,12 @@ package com.upi.upts;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Clock;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
@@ -20,7 +26,7 @@ import com.upi.upts.util.StringUtil;
 
 public class UptsTest {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 //		String string = "[1,2,3]";
 //
 //		String timeStampToDateStr = StringUtil.stampToDate("1545890700000", UiisConstant.UPI_NORMAL_FORMAT);
@@ -55,6 +61,57 @@ public class UptsTest {
 //		ReportTimer timer = new ReportTimer();
 //		timer.getReport();
 		//"2019-01-08T09:15:38Z"
+		String unixTime = StringUtil.getUnixTime(UiisConstant.UPI_UTC_FORMAT);
+		System.out.println(unixTime);
+		Clock systemUTC = Clock.systemUTC();
+		
+		LocalDateTime now2 = LocalDateTime.now(systemUTC);
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern(UiisConstant.UPI_UTC_FORMAT);
+		
+		LocalDateTime date1 = LocalDateTime.parse("2019-01-22T06:12:23.131Z",dtf);
+//		date1.
+		
+		String format1 = dtf.format(now2);
+		System.out.println(format1);
+		
+		String format = now2.format(DateTimeFormatter.ISO_DATE_TIME);
+		System.out.println(format);
+		ZonedDateTime now1 = ZonedDateTime.now(Clock.systemUTC());
+		System.out.println(now1.getZone());
+//		DateTimeFormatter.ISO_INSTANT.
+//		System.out.println(now1.toString());
+//		long millis = systemUTC.millis();
+//		System.out.println("millis:"+millis+":"+System.currentTimeMillis());
+		
+		Instant now = Instant.now();
+		System.out.println(now.getEpochSecond()+":"+Calendar.getInstance().getTimeInMillis());
+		
+		long timeInMillis = Calendar.getInstance().getTimeInMillis();
+		Date date = new Date(timeInMillis);
+		System.out.println("UTC NOW:"+now.toString());
+		System.out.println(now);
+		System.out.println("Date:"+date);
+		String string ="";
+		try {
+			string = StringUtil.getUnixTimeOffset(10000L,UiisConstant.UPI_UTC_TIME);
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		System.out.println(string);
+		String utcTimeStr = "";
+		try {
+			utcTimeStr = unixTime;
+			System.out.println(utcTimeStr);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String localTimeFromUTC = StringUtil.getLocalTimeFromUTC(utcTimeStr, UiisConstant.UPI_UTC_FORMAT, UiisConstant.UPI_NORMAL_FORMAT);
+		System.out.println(localTimeFromUTC);
+		String er = StringUtil.getLocalTimeFromUTC("2019-01-22T01:30:00.000Z", UiisConstant.UPI_UTC_FORMAT, UiisConstant.UPI_NORMAL_FORMAT);
+		System.out.println(er);
+		
 		
 	}
 	

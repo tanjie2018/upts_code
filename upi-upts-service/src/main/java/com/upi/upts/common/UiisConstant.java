@@ -57,6 +57,7 @@ public class UiisConstant {
 	public static final String UPI_NORMAL_DATE = "yyyy-MM-dd";
 //	public static final String UPI_UTC_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.S'Z'";
 	public static final String UPI_UTC_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+	public static final String UPI_UTC_TIME = "yyyy-MM-dd'T'HH:mm:ss'Z'";
 	
 	public static final String BUY_QUEURE_SIZE = "buyQueueSize";//历史买队列深度--不支持分布式
 	public static final String SELL_QUEURE_SIZE = "sellQueueSize";//历史卖队列深度--不支持分布式

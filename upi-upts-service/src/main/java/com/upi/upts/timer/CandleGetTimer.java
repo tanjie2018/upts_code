@@ -52,7 +52,7 @@ public class CandleGetTimer {
 						JSONArray candles = null;
 						long start = System.currentTimeMillis();
 						try {
-							candles = getApiServiceImpl().getInstrumentCandles(UiisConstant.instrumentId, StringUtil.getUTCTimeOffset(720000L), "", 300);
+							candles = getApiServiceImpl().getInstrumentCandles(UiisConstant.instrumentId, StringUtil.getUnixTimeOffset(720000L,UiisConstant.UPI_UTC_TIME), "", 300);
 						} catch (Exception e) {
 							long end = System.currentTimeMillis();
 							long interval = end-start;
@@ -60,7 +60,7 @@ public class CandleGetTimer {
 							return;
 						}
 						String[] strs = candles.getString(1).replace("[", "").replace("]", "").split(",");
-						String candleId = String.valueOf(Double.valueOf(strs[0]).longValue());
+						String candleId = strs[0];
 						if(!idList.contains(candleId)) {
 							idList.addLast(candleId);
 							if(idList.size()>3) {
