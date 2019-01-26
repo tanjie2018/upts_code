@@ -40,6 +40,8 @@
 //	private ApplicationContext applicationContext;
 //	@Autowired
 //	private CandleServiceImpl candleServiceImpl;
+//	@Autowired
+//	private ReportTimer reportTimer;
 //	@PostConstruct
 //	public void init() {
 //		getTrade();
@@ -56,6 +58,12 @@
 //						} catch (InterruptedException e) {
 //							logger.error("线程休眠异常");
 //						}
+//						
+//						//如果遇到00:00:00则生成报表
+//						if(candle.getTime().contains("00:00:00")) {
+//							reportTimer.saveReport(candle.getOpen(), candle.getTime().substring(0, 10));
+//						}
+//						
 //						logger.info("获取candle为："+candle);
 //		        		TrendTask task = applicationContext.getBean(TrendTask.class);
 //		        		task.init(candle, "DB");
