@@ -149,6 +149,74 @@ public class ReportTimer {
 		}
 		report.setId(settleDate);
 		report.setProfit(report.getSprofit().add(report.getForceOrderCost()).setScale(3, BigDecimal.ROUND_HALF_UP));
+		
+		return report;
+	}
+	
+	/**
+	 * 根据当前价格计算上一天的日终报表
+	 * @param price
+	 * @param settleDate
+	 * @return
+	 */
+	public Report saveReport(Double price,String settleDate) {
+		Report report = new Report();
+		settleDate = StringUtil.subDay(settleDate);
+		//计算爆仓单及损失
+		List<Trade> forceOrders = tradeServiceImpl.getDateData(settleDate, "4");
+		if(!StringUtil.isEmpty(forceOrders)) {
+			report.setForceOrderNum(String.valueOf(forceOrders.size()));
+			BigDecimal forceSum = new BigDecimal(0);
+			for(Trade trade:forceOrders) {
+				forceSum = forceSum.add(trade.getProfit());
+			}
+			report.setForceOrderCost(forceSum);
+		}else {
+			report.setForceOrderCost(new BigDecimal(0));
+			report.setForceOrderNum("0");
+		}
+		//计算利润
+		List<Trade> tradeOrders = tradeServiceImpl.getDateData(settleDate, "1");
+		List<Trade> closeOrders = tradeServiceImpl.getDateData(settleDate, "3");
+		if(StringUtil.isEmpty(tradeOrders)) {
+			tradeOrders = new LinkedList<>();
+		}
+		if(StringUtil.isEmpty(closeOrders)) {
+			closeOrders = new LinkedList<>();
+		}
+		tradeOrders.addAll(closeOrders);
+		if(StringUtil.isEmpty(tradeOrders)) {
+			report.setSprofit(new BigDecimal(0));
+			logger.info("已完成交易数为零");
+		}else {
+			logger.info("已完成交易:"+tradeOrders);
+			BigDecimal tradeSum = new BigDecimal(0);
+			for(Trade trade:tradeOrders) {
+				tradeSum = tradeSum.add(trade.getProfit());
+				logger.info("tradeSum:"+tradeSum.toString());
+			}
+			report.setSprofit(tradeSum);
+		}
+		//计算未完成订单
+		List<Trade> undoOrders = tradeServiceImpl.getDateData(null, "2");
+		if(StringUtil.isEmpty(undoOrders)) {
+			report.setScost(new BigDecimal(0));
+			logger.info("未完成交易数为零");
+		}else {
+			logger.info("未完成交易:"+undoOrders);
+			BigDecimal undoSum = new BigDecimal(0);
+			for(Trade trade:undoOrders) {
+				double subCost = Math.abs(trade.getBprice()-price);
+				BigDecimal undoCost = BigDecimal.valueOf(subCost).multiply(new BigDecimal(trade.getSize())).setScale(3, BigDecimal.ROUND_HALF_UP);
+				undoSum = undoSum.add(undoCost);
+				logger.info("消失金额："+undoSum);
+			}
+			report.setScost(undoSum);
+		}
+		report.setId(settleDate);
+		report.setProfit(report.getSprofit().add(report.getForceOrderCost()).setScale(3, BigDecimal.ROUND_HALF_UP));
+		logger.info("日期："+settleDate+"日终清算价格："+price);
+		reportServiceImpl.insert(report);
 		return report;
 	}
 }
