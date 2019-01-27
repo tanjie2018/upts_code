@@ -200,6 +200,6 @@ public class APIHttpClient {
         requestInfo.append("\n\t\t").append("Body: ").append(body);
         final String preHash = HmacSHA256Base64Utils.preHash(timestamp, method, requestPath, queryString, body);
         requestInfo.append("\n\t\t").append("preHash: ").append(preHash);
-//        APIHttpClient.LOG.info(requestInfo.toString());
+        APIHttpClient.LOG.info(requestInfo.toString());
     }
 }
