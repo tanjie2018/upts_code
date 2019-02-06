@@ -141,6 +141,6 @@ public class APIClient {
         } else {
             responseInfo.append("\n\t\t").append("\n\tRequest Error: response is null");
         }
-//        APIClient.LOG.info(responseInfo.toString());
+        APIClient.LOG.info(responseInfo.toString());
     }
 }
