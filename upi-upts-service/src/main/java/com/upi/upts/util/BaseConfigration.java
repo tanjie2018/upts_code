@@ -14,6 +14,8 @@ public class BaseConfigration {
         config.setPassphrase("ActionForTingTing");
         config.setI18n(I18nEnum.SIMPLIFIED_CHINESE);
         config.setPrint(true);
+        //失败重连设置为false
+        config.setRetryOnConnectionFailure(false);
 
         return config;
     }

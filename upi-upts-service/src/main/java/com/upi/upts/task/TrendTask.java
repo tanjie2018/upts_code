@@ -144,7 +144,9 @@ public class TrendTask implements ITask{
 				log.info("买点处理完毕："+candle);
 			}
 			//卖点处理
-			if(trend.getIsSellPoint()) {
+//			if(trend.getIsSellPoint()) {
+			//用买点来处理卖点
+			if(trend.getIsBuyPoint()) {
 //				if(!"DC".equals(level)) {
 //					//正常
 //					tradeServiceImpl.closeOrder(candle, "NM");

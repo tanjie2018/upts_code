@@ -60,7 +60,8 @@ public class ReportTimer {
 		} catch (ParseException e) {
 			logger.error("时间转换异常",e);
 		}
-		getReport();
+		//根据凌晨0：00K线触发
+//		getReport();
 	}
 	
 	private Timer reportTimer = new Timer();
@@ -154,7 +155,7 @@ public class ReportTimer {
 	}
 	
 	/**
-	 * 根据当前价格计算上一天的日终报表
+	 * 根据当前价格和日期计算上一天的日终报表
 	 * @param price
 	 * @param settleDate
 	 * @return
