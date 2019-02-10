@@ -273,6 +273,61 @@ public class TradeServiceImpl implements TradeService {
 	}
 	
 	/**
+	 * 趋势成立平仓
+	 * @param candle
+	 * @param level
+	 * @throws CloneNotSupportedException
+	 */
+	public void closeTOrder(Candle candle,String level,String trend) throws CloneNotSupportedException {
+		Trade trade = null;
+		LinkedList<Trade> tList = null;
+		if(UiisConstant.UP.equals(trend)) {
+			tList = CommonVO.nsTradeMap.get(level);
+			if(!StringUtil.isEmpty(tList)&&tList.size()>0) {
+				log.info("N卖空处理，队列深度为："+tList.size());
+				trade = tList.getLast();
+				if("2".equals(trade.getFlag())) {
+					return;
+				}
+				if(trade.getBprice()<candle.getClose()) {
+					trade.setFlag("2");
+					update(trade);
+					return;
+				}
+			}
+		}else {
+			tList = CommonVO.nbTradeMap.get(level);
+			if(!StringUtil.isEmpty(tList)&&tList.size()>0) {
+				log.info("N卖多处理，队列深度为："+tList.size());
+				trade = tList.getLast();
+				if("2".equals(trade.getFlag())) {
+					return;
+				}
+				if(trade.getBprice()>candle.getClose()) {
+					trade.setFlag("2");
+					update(trade);
+					return;
+				}
+			}
+		}
+		if(!StringUtil.isEmpty(trade)) {
+			trade.setSprice(candle.getClose());
+			trade.setSsum(candle.getClose()*trade.getSize());
+			trade.setStime(candle.getTime());
+			if(trend.equals(UiisConstant.UP)) {
+				trade.setProfit(BigDecimal.valueOf(trade.getBsum()-trade.getSsum()).setScale(3, BigDecimal.ROUND_HALF_UP));
+				trade.setRang(BigDecimal.valueOf((trade.getBprice()-trade.getSprice())/trade.getBprice()*100).setScale(3, BigDecimal.ROUND_HALF_UP));
+			}else {
+				trade.setProfit(BigDecimal.valueOf(trade.getSsum()-trade.getBsum()).setScale(3, BigDecimal.ROUND_HALF_UP));
+				trade.setRang(BigDecimal.valueOf((trade.getSprice()-trade.getBprice())/trade.getBprice()*100).setScale(3, BigDecimal.ROUND_HALF_UP));
+			}
+			trade.setFlag("1");
+			update(trade);
+			tList.removeLast();
+		}
+	}
+	
+	/**
 	 * 未盈利单平仓
 	 * @param candle
 	 * @param level
