@@ -1,5 +1,7 @@
 package com.upi.upts.timer;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
+
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -22,6 +24,7 @@ import com.upi.upts.okexapi.config.APIConfiguration;
 import com.upi.upts.okexapi.service.futures.impl.FuturesMarketAPIServiceImpl;
 import com.upi.upts.service.impl.CandleServiceImpl;
 import com.upi.upts.task.TrendTask;
+import com.upi.upts.task.TrendTaskSingle;
 import com.upi.upts.util.BaseConfigration;
 import com.upi.upts.util.StringUtil;
 import com.upi.upts.util.ThreadUtil;
@@ -53,11 +56,6 @@ public class CandlesFromDBTimer {
 					List<Candle> candlesList = candleServiceImpl.getAllCandles();
 					logger.info("candlesSize:"+candlesList.size());
 					for(Candle candle : candlesList) {
-						try {
-							Thread.sleep(200);
-						} catch (InterruptedException e) {
-							logger.error("线程休眠异常");
-						}
 						
 						//如果遇到00:00:00则生成报表
 						if(candle.getTime().contains("00:00:00")) {
@@ -65,9 +63,13 @@ public class CandlesFromDBTimer {
 						}
 						
 						logger.info("获取candle为："+candle);
-		        		TrendTask task = applicationContext.getBean(TrendTask.class);
+						TrendTaskSingle task = applicationContext.getBean(TrendTaskSingle.class);
 		        		task.init(candle, "DB");
-		        		ThreadUtil.getThreadPoolExecutor().submit(task);
+		        		try {
+							task.dealJob();
+						} catch (Exception e) {
+							logger.error("任务处理异常:"+candle,e);
+						}
 					}
 		        }  
 		    };  

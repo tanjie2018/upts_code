@@ -59,21 +59,21 @@
 //					}
 //					logger.info("candles:"+candles);
 //					for(int i=candles.size()-1;i>0;i--) {
-//						try {
-//							Thread.sleep(1000);
-//						} catch (InterruptedException e) {
-//							// TODO Auto-generated catch block
-//							e.printStackTrace();
-//						}
+////						try {
+////							Thread.sleep(1000);
+////						} catch (InterruptedException e) {
+////							// TODO Auto-generated catch block
+////							e.printStackTrace();
+////						}
 //						String[] strs = candles.getString(i).replace("[", "").replace("]", "").split(",");
 //			        	String candleId = strs[0];
 //			        	if(!candleId.equals(id)) {
 //			        		id = candleId;
 //			        		Candle candle = UptsUtil.strToCandle(strs);
 //			        		logger.info("获取candle为："+candle);
-//			        		TrendTask task = applicationContext.getBean(TrendTask.class);
-//			        		task.init(candle, "SC");
-//			        		ThreadUtil.getThreadPoolExecutor().submit(task);
+////			        		TrendTask task = applicationContext.getBean(TrendTask.class);
+////			        		task.init(candle, "SC");
+////			        		ThreadUtil.getThreadPoolExecutor().submit(task);
 //			        		candleServiceImpl.insert(candle);
 //			        	}
 //					}
