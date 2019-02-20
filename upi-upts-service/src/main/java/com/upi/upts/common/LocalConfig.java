@@ -53,6 +53,7 @@ public class LocalConfig {
 	
 	@PostConstruct
 	private void init() {
+		log.info("Start LocalConfig");
 		localConfig = this;
 	}
 	

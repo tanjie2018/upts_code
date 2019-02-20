@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSONArray;
@@ -43,6 +44,7 @@ import com.upi.upts.util.UptsUtil;
  * @author tanjie
  */
 @Component
+@DependsOn(value= {"localConfig"})
 public class ReportTimer {
 
 	private static Logger logger = LoggerFactory.getLogger(ReportTimer.class);
@@ -83,7 +85,8 @@ public class ReportTimer {
 			}
 		};
 		//执行task任务，tDate只开始执行的时间，间隔时间 1000*60*60*24
-		reportTimer.scheduleAtFixedRate(task, tDate, 1000*60*60*24);
+//		reportTimer.scheduleAtFixedRate(task, tDate, 1000*60*60*24);
+		reportTimer.schedule(task, 2000);
 	}
 	
 	private static FuturesMarketAPIServiceImpl getApiServiceImpl() {
