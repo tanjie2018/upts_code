@@ -147,14 +147,14 @@ public class TrendTaskSingle  {
 			//用买点来处理卖点
 //			if(trend.getIsBuyPoint()) {
 			//趋势反转则下买单
-//			if(!trend.getPreTrendDirec().equals(trend.getCurTrendDirec())) {
+//			if(!trend.getPreTrendDirec().equals(trend.getCurTrendDirec())) {//步骤1.0
 //				if(!"DC".equals(level)) {
 //					//正常
 //					tradeServiceImpl.closeOrder(candle, "NM");
 //				}
 				//不止损
 				tradeServiceImpl.closeNlOrder(candle, level);
-//				tradeServiceImpl.closeTOrder(candle, level, trend.getCurTrendDirec());
+//				tradeServiceImpl.closeTOrder(candle, level, trend.getCurTrendDirec());//步骤1.1
 				trend.setIsCloseOrder(true);
 				log.info("卖点处理完毕："+candle);
 				
